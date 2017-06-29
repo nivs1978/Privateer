@@ -58,15 +58,15 @@ function map(k)
         // Only show entire map if no event on sea is happening (e.g. mist or enemy)
             if (this.applet.getCurrentAction() == kaper.actionType.MAP)
         {
-                this.font.setCurrentMode(this.cgafont.modes.CGA_MODE2);
+                this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
 
             // Show entire map
                 g.drawImage(img_map_mode2, 9, 0);
 
             // Show help keys
-                g.drawImage(this.font.getResource("Map3"), 41, 304, applet); // F1
-                g.drawImage(this.font.getResource("Map4"), 265, 304, applet); // F2
-                g.drawImage(this.font.getResource("Map5"), 473, 304, applet); // F3
+                g.drawImage(this.font.getResource("Map3"), 41, 304); // F1
+                g.drawImage(this.font.getResource("Map4"), 265, 304); // F2
+                g.drawImage(this.font.getResource("Map5"), 473, 304); // F3
 
             // Show information at top of screen
                 g.drawImage(this.font.getResource("Map1", this.currentPlayer.getScore()), 41, 0);
@@ -80,41 +80,33 @@ function map(k)
         else
         {
             // Only show the bottom part of the map (used by mist and enemy events)
-                if (this.font.getCurrentMode() == this.cgafont.modes.CGA_MODE1)
+                if (this.font.getCurrentMode() == cgafont.modes.CGA_MODE1)
                     g.drawImage(img_map_mode1, 9, 325, 631, 394, 0, 325, 622, 394);
             else
                     g.drawImage(img_map_mode2, 9, 325, 631, 394, 0, 325, 622, 394);
         }
 
         // Show information at bottom of screen
-        g.drawImage(font.getResource("Map6", currentPlayer.getMoves()), 25, 336, applet);
-        g.drawImage(font.getResource("Map7", currentPlayer.getMoney()), 217, 336, applet);
-        g.drawImage(font.getResource("Map8", currentPlayer.getGrain()), 441, 336, applet);
-        g.drawImage(font.getResource("Map9", currentPlayer.getMen()), 25, 368, applet);
-        g.drawImage(font.getResource("Map10", currentPlayer.getCannons()), 217, 368, applet);
-        g.drawImage(font.getResource("Map11", currentPlayer.getReparation()), 441, 368, applet);
+        g.drawImage(this.font.getResource("Map6", this.currentPlayer.getMoves()), 25, 336);
+        g.drawImage(this.font.getResource("Map7", this.currentPlayer.getMoney()), 217, 336);
+        g.drawImage(this.font.getResource("Map8", this.currentPlayer.getGrain()), 441, 336);
+        g.drawImage(this.font.getResource("Map9", this.currentPlayer.getMen()), 25, 368);
+        g.drawImage(this.font.getResource("Map10", this.currentPlayer.getCannons()), 217, 368);
+        g.drawImage(this.font.getResource("Map11", this.currentPlayer.getReparation()), 441, 368);
     }
 
     /**
      * Controls keyboard arrow events
      */
-    this.keyEventCode = function(i)
+    this.keyEvent = function(c)
     {
-        if (i >= 33 && i <= 40) // Arrow keys pressed - move ship
-            moveShip(i);
-        else if (i == 112) // F1 pressed - show help menu
+        if (c == "F1") // F1 pressed - show help menu
             this.applet.setCurrentAction(kaper.actionType.HELP);
+        else if (c == "Escape") // ESC pressed - end game
+            this.applet.setCurrentStep(kaper.stepType.HIGHSCORE);
+         else // Arrow keys pressed - move ship
+            this.moveShip(c);
     }
-    
-    /**
-     * Controls keyboard character events
-     */
-    this.keyEventChar = function(c)
-    {
-        if (c.charCodeAt(0) == 27) // ESC pressed - end game
-            this.applet.setCurrentStep(kaper.stepType.HIGHSCORE); 
-    }
-
     
     // ------------------- Methods in this game object not specified by interface -------------------
     
@@ -127,47 +119,63 @@ function map(k)
         // Get current position of player
         var posX = this.currentPlayer.getPosX();
         var posY = this.currentPlayer.getPosY();
+        var triedtomove = false; // Since all key events gets passed here, and all moves count as an attempt to move, we need a flag if the key pressed was a "move" key.
         
         // Translate keyboard input to change in ship position
         switch (direction)
         {
-            case 33: // Up-right arrow pressed
+            case "9": // Up-right arrow pressed
                 posX += 1;
                 posY -= 1;
+                triedtomove = true;
                 break;
                     
-            case 34: // Down-right arrow pressed
+            case "3": // Down-right arrow pressed
                 posX += 1;
                 posY += 1;
+                triedtomove = true;
                 break;
                     
-            case 35: // Down-left arrow pressed
+            case "1": // Down-left arrow pressed
                 posX -= 1;
                 posY += 1;
+                triedtomove = true;
                 break;
                     
-            case 36: // Up-left arrow pressed
+            case "7": // Up-left arrow pressed
                 posX -= 1;
                 posY -= 1;
+                triedtomove = true;
                 break;
                     
-            case 37: // Left arrow pressed
+            case "4": // Left arrow pressed
+            case "ArrowLeft":
                 posX -= 1;
+                triedtomove = true;
                 break;
                     
-            case 38: // Up arrow pressed
+            case "8": // Up arrow pressed
+            case "ArrowUp":
                 posY -= 1;
+                triedtomove = true;
                 break;
                     
-            case 39: // Right arrow pressed
+            case "6": // Right arrow pressed
+            case "ArrowRight":
                 posX += 1;
+                triedtomove = true;
                 break;
                     
-            case 40: // Down arrow pressed
+            case "2": // Down arrow pressed
+            case "ArrowDown":
                 posY += 1;
+                triedtomove = true;
                 break;
         }
         
+        if (!triedtomove) // No move key pressed, we abort
+            return;
+
         // If ship still on map, check if move is legal according to map layout
         if (posX >= 1 && posX <= 29 && posY >= 1 && posY <= 14) // Map is 29x14 tiles large
         {

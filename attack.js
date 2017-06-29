@@ -45,21 +45,21 @@ function attack(k)
         switch (this.currentAttack)
         {
             case attack.attackType.NONE:
-                this.font.setCurrentMode(this.cgafont.modes.CGA_MODE2);
+                this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
                 this.applet.getMap().paint(g); // Paint stats in bottom of screen
-                g.drawImage(font.getResource("Attack1"), 0, 0);
-                g.drawImage(font.getResource("Attack2"), 0, 16);
-                g.drawImage(font.getResource("Attack3", this.currentEnemy.getName()), 0, 32);
-                g.drawImage(font.getResource("Attack4", this.currentPlayer.getRankType1(), this.currentPlayer.getName()), 0, 64);
-                g.drawImage(font.getResource("Attack5"), 0, 80);
-                g.drawImage(font.getResource("Attack6"), 0, 112);
+                g.drawImage(this.font.getResource("Attack1"), 0, 0);
+                g.drawImage(this.font.getResource("Attack2"), 0, 16);
+                g.drawImage(this.font.getResource("Attack3", this.currentEnemy.getName()), 0, 32);
+                g.drawImage(this.font.getResource("Attack4", this.currentPlayer.getRankType1(), this.currentPlayer.getName()), 0, 64);
+                g.drawImage(this.font.getResource("Attack5"), 0, 80);
+                g.drawImage(this.font.getResource("Attack6"), 0, 112);
                 break;
                 
             case attack.attackType.ATTACK:
-                this.font.setCurrentMode(this.cgafont.modes.CGA_MODE2);
+                this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
                 this.applet.getMap().paint(g); // Paint stats in bottom of screen
-                g.drawImage(font.getResource("Attacking1"), 0, 0);
-                g.drawImage(font.getResource("Attacking2"), 0, 16);
+                g.drawImage(this.font.getResource("Attacking1"), 0, 0);
+                g.drawImage(this.font.getResource("Attacking2"), 0, 16);
                 break;
                 
             case attack.attackType.SHOOT:
@@ -71,14 +71,14 @@ function attack(k)
                 break;
                 
             case attack.attackType.WITHDRAW:
-                this.font.setCurrentMode(this.cgafont.modes.CGA_MODE2);
+                this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
                 this.applet.getMap().paint(g); // Paint stats in bottom of screen
                 g.drawImage(this.font.getResource("Attack6"), 0, 16);
                 break;
                 
             case attack.attackType.WON_SURRENDER:
             case attack.attackType.WON_PRIZING:
-                this.font.setCurrentMode(this.cgafont.modes.CGA_MODE1);
+                this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
                 g.drawImage(this.font.getResource("AttackSurrender1"), 0, 0);
                 g.drawImage(this.font.getResource("AttackSurrender2", currentEnemy.getMoney()), 0, 16);
                 if (this.currentEnemy.getMen() > 1)
@@ -100,7 +100,7 @@ function attack(k)
                 break;
 
             case attack.attackType.WON_SUNK:
-                this.font.setCurrentMode(this.cgafont.modes.CGA_MODE1);
+                this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
                 g.drawImage(this.font.getResource("AttackSunk1"), 0, 0);
                 var moreLines = 0;
                 if (this.sunkMen > 0)
@@ -116,7 +116,7 @@ function attack(k)
     /**
      * Controls keyboard character events
      */
-    this.keyEventChar = function(c)
+    this.keyEvent = function(c)
     {
         switch (this.currentAttack)
         {
@@ -130,8 +130,8 @@ function attack(k)
                             
                 if (c.toLowerCase() == a) // Player attacks - ask how to attack
                     this.currentAttack = attack.attackType.ATTACK;
-                else if (Character.toLowerCase(c) == flee) // Go back to map
-                    this.resetAttack(attackk.type.LOST);
+                else if (c.toLowerCase() == flee) // Go back to map
+                    this.resetAttack(attack.type.LOST);
                 else // Player has to choose either Attack or Flee
                     Toolkit.getDefaultToolkit().beep();
                 break;
@@ -226,24 +226,12 @@ function attack(k)
         }
     }
     
-    /**
-     * Controls keyboard arrow events
-     */
-    this.keyEventCode = function(i)
-    {
-        // Only the shoot attack uses arrow keys
-        if (this.currentAttack == attack.attackType.SHOOT)
-            this.currentShoot.keyEvent(i);
-    }
-
-    
     // ------------------- Methods in this game object not specified by interface -------------------
-
     
     /**
      * Reset attack
      */
-    function resetAttack(t)
+    this.resetAttack = function(t)
     {
         if (t == attack.type.LOST)
             this.currentPlayer.addToBattlesLost();

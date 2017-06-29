@@ -139,9 +139,9 @@ function cgafont()
         var str = this.getResourceAsString(res);
         console.log("Skriver tekst: " + str);
         if (replace1!=null)
-            str = string.replace("{0}",""+replace1);
+            str = str.replace("{0}",""+replace1);
         if (replace2!=null)
-          str = string.replace("{1}",""+replace2);
+          str = str.replace("{1}",""+replace2);
         
         // Return image with CGA font text
         var img = document.createElement("canvas");

@@ -224,7 +224,7 @@ function player(k)
      */
     this.getMoney = function()
     {
-        return money;
+        return this.money;
     }
     this.setMoney = function(m)
     {
@@ -245,7 +245,7 @@ function player(k)
     this.getGrain = function()
     {
         // No need to show that grain is double
-        return this.Math.round(this.grain);
+        return Math.round(this.grain);
     }
     this.setGrain = function(g)
     {
@@ -356,12 +356,12 @@ function player(k)
     this.getRankType1 = function()
     {
         var internalRankName = this.rankType1[(this.difficulty - 2) / 2];
-        return applet.getCGAFont().getResourceAsString("PlayerRank1_" + this.internalRankName);
+        return this.applet.getCGAFont().getResourceAsString("PlayerRank1_" + internalRankName);
     }
     this.getRankType2 = function()
     {
         var internalRankName = this.rankType2[(this.difficulty - 2) / 2];
-        return applet.getCGAFont().getResourceAsString("PlayerRank2_" + this.internalRankName);
+        return this.applet.getCGAFont().getResourceAsString("PlayerRank2_" + internalRankName);
     }
 
     /**

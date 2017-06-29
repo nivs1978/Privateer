@@ -64,7 +64,7 @@ function board(k, e, a)
      */
     this.paint = function(g)
     {
-        this.font.setCurrentMode(this.cgafont.modes.CGA_MODE1);
+        this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
 
         // Show ship animation
         g.drawImage(img_ship_board_en, 372, 30); 

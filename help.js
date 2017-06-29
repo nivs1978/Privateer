@@ -128,7 +128,7 @@ function help(k)
             }
             
             // Show next help page on this menu (if it exist)
-            if (test.length() > 0)
+            if (test.length > 0)
                 this.currentPage += 1;
             else
                 this.resetMenu();

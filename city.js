@@ -84,7 +84,7 @@ function city(k)
             g.drawImage(font.getResource("CitySell" + (currentActionChar - 1), currentBuySellAmount), 0, 224);
         
         // Show error if buying or selling goes wrong
-        if (this.currentBuySellError.length() > 0)
+        if (this.currentBuySellError.length > 0)
             g.drawImage(this.font.getString(currentBuySellError), 0, 240);
     }
 
@@ -128,19 +128,19 @@ function city(k)
         }
         else if ((this.currentAction == city.actionType.BUY ||
                  this.currentAction == city.actionType.SELL_2) &&
-                 this.currentBuySellError.length() == 0)
+                 this.currentBuySellError.length == 0)
         {
             // Add char to amount either buying or selling
-            if (c >= 48 && c <= 57 && this.currentBuySellAmount.length() < 4)
+            if (c >= 48 && c <= 57 && this.currentBuySellAmount.length < 4)
             {
                 this.currentBuySellAmount += c;
             }
             else if (c == 8) // Backspace key
             {
-                if (this.currentBuySellAmount.length() > 0)
-                    this.currentBuySellAmount = this.currentBuySellAmount.substring(0, this.currentBuySellAmount.length() - 1);
+                if (this.currentBuySellAmount.length > 0)
+                    this.currentBuySellAmount = this.currentBuySellAmount.substring(0, this.currentBuySellAmount.length - 1);
                 }
-            else if (c == 10 && this.currentBuySellAmount.length() > 0) // Return key
+            else if (c == 10 && this.currentBuySellAmount.length > 0) // Return key
             {
                 if (this.currentAction == city.actionType.BUY) // Player is buying
                     this.buyResources();
@@ -172,7 +172,7 @@ function city(k)
             else // Player has to choose either Grain, Cannons or Jewels
                 Toolkit.getDefaultToolkit().beep();
         }
-        else if (currentBuySellError.length() > 0)
+        else if (currentBuySellError.length > 0)
         {
             // Warning showed, now reset the action
             this.resetAction();
@@ -241,7 +241,7 @@ function city(k)
         }
 
         // Buy resources
-        if (this.currentBuySellError.length() == 0) // Should always be 0
+        if (this.currentBuySellError.length == 0) // Should always be 0
         {
             this.currentPlayer.setMoney(this.currentPlayer.getMoney() - total);
             switch (this.currentActionChar)
@@ -293,7 +293,7 @@ function city(k)
         }
 
         // Sell resources
-        if (this.currentBuySellError.length() == 0) // Should always be 0
+        if (this.currentBuySellError.length == 0) // Should always be 0
         {
             this.currentPlayer.setMoney(this.currentPlayer.getMoney() + total);
             switch (this.currentActionChar)

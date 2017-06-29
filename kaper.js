@@ -45,12 +45,12 @@ function kaper()
     this.addKeyListener = function()
     {
         if (document.addEventListener) {
-            document.addEventListener('keydown', this.keyPressedCode, false);
-            document.addEventListener('keypress', this.keyPressedChar, false);
+            document.addEventListener('keydown', this.keyPressed, false);
+ //           document.addEventListener('keypress', this.keyPressed, false);
         }
         else if (document.attachEvent) {
-            document.attachEvent('keydown', this.keyPressedCode);
-            document.attachEvent('keypress', this.keyPressedChar);
+            document.attachEvent('keydown', this.keyPressed);
+ //           document.attachEvent('keypress', this.keyPressed);
         }
     }
 
@@ -132,7 +132,7 @@ function kaper()
                 break;
                 
             case kaper.stepType.TITLE_SCREEN:
-                var img = eval("img_title_" + this.font.getCurrentLocale() + ".png");
+                var img = eval("img_title_" + this.font.getCurrentLocale());
                 this.osgrp.drawImage(img, 12, 0);
                 break;
                 
@@ -140,25 +140,25 @@ function kaper()
                 // The actual game is made with game objects which are called from here
                 switch (this.currentAction)
                 {
-                    case MAP:
+                    case kaper.actionType.MAP:
                         this.gMap.paint(this.osgrp);
                         break;
-                    case PROMOTE:
+                    case kaper.actionType.PROMOTE:
                         this.gPromote.paint(this.osgrp);
                         break;
-                    case MIST:
+                    case kaper.actionType.MIST:
                         this.gMist.paint(this.osgrp);
                         break;
-                    case ATTACK:
+                    case kaper.actionType.ATTACK:
                         this.gAttack.paint(this.osgrp);
                         break;
-                    case HARBOR:
+                    case kaper.actionType.HARBOR:
                         this.gHarbor.paint(this.osgrp);
                         break;
-                    case CITY:
+                    case kaper.actionType.CITY:
                         this.gCity.paint(this.osgrp);
                         break;
-                    case HELP:
+                    case kaper.actionType.HELP:
                         this.gHelp.paint(this.osgrp);
                         break;
                 }
@@ -252,7 +252,7 @@ function kaper()
             
             // Check if any animation is currently being drawed
             if (this.animationRepaint && this.currentAction == kaper.actionType.ATTACK &&
-                this.gAttack.getCurrentBoard().getCurrentState() == stateType.SHIP_ANIMATION)
+                this.gAttack.getCurrentBoard().getCurrentState() == shoot.stateType.SHIP_ANIMATION)
             {
                 console.log("- boarding enemy");
                 // Boarding enemy animation happening
@@ -261,7 +261,7 @@ function kaper()
                 this.repaint();
             }
             else if (this.animationRepaint && this.currentAction == kaper.actionType.ATTACK &&
-                     this.gAttack.getCurrentBoard().getCurrentState() == stateType.FLAG_ANIMATION)
+                     this.gAttack.getCurrentBoard().getCurrentState() == shoot.stateType.FLAG_ANIMATION)
             {
                 console.log("- enemy surrender");
                 // Enemy surrender animation
@@ -306,44 +306,14 @@ function kaper()
      *  and passes key events on to game objects while in the game itself)
      */
     //public void keyReleased(KeyEvent e) {} // Not used
-    this.keyPressedCode = function(e)
+
+    this.keyPressed = function (e)
     {
-        var i = (window.Event) ? event.which : event.keyCode;
-
-        if (okaper.currentStep == kaper.stepType.GAME_PLAYING)
-        {
-            switch (currentAction)
-            {
-                case MAP:
-                    okaper.gMap.keyEventCode(i);
-                    okaper.repaint();
-                    break;
-                
-                case ATTACK:
-                    okaper.gAttack.keyEventCode(i);
-                    okaper.repaint();
-                    break;
-
-                case HARBOR:
-                    okaper.gHarbor.keyEventCode(i);
-                    okaper.repaint();
-                    break;
-                case CITY:
-                    okaper.gCity.keyEventCode(i);
-                    okaper.repaint();
-                    break;
-            }
-
-            //e.consume(); // Remove from list of pressed keys
-       }
-    }
-
-    this.keyPressedChar = function (e)
-    {
-        var c = String.fromCharCode(e.charCode);
+        var c = e.key;
 
         /*if (c != KeyEvent.CHAR_UNDEFINED)
         {*/
+
         switch (okaper.currentStep)
             {
             case kaper.stepType.INTRO_WELCOME:
@@ -362,22 +332,22 @@ function kaper()
                     break;
                     
             case kaper.stepType.INTRO_ENTER_NAME:
-                    if (c.charCodeAt(0) == 10 && currentPlayer.getName().length() > 0) // Return key - start game
+                if (c == "Enter" && okaper.currentPlayer.getName().length > 0) // Return key - start game
                     {
                         okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
                         okaper.repaint();
                     }
-                    else if (c.charCodeAt(0) == 8) // Backspace key
+                    else if (c == "Backspace") // Backspace key
                     {
-                        if (okaper.currentPlayer.getName().length() > 0)
+                        if (okaper.currentPlayer.getName().length > 0)
                         {
-                            okaper.currentPlayer.setName(currentPlayer.getName().substring(0, currentPlayer.getName().length() - 1));
+                            okaper.currentPlayer.setName(okaper.currentPlayer.getName().substring(0, okaper.currentPlayer.getName().length - 1));
                             okaper.repaint();
                         }
                     }
-                    else if (c.charCodeAt(0) >= 32)// Normal characters
+                    else if (c.length==1)// Normal characters
                     {
-                        okaper.currentPlayer.setName(currentPlayer.getName() + c);
+                        okaper.currentPlayer.setName(okaper.currentPlayer.getName() + c);
                         okaper.repaint();
                     }
                     break;
@@ -387,40 +357,40 @@ function kaper()
                     okaper.repaint();
                     break;
                     
-                case GAME_PLAYING:
-                    switch (currentAction)
+            case kaper.stepType.GAME_PLAYING:
+                switch (okaper.currentAction)
                     {
-                        case MAP:
-                            okaper.gMap.keyEventChar(c);
+                        case kaper.actionType.MAP:
+                            okaper.gMap.keyEvent(c);
                             break;
-                        case PROMOTE:
-                            okaper.gPromote.keyEventChar(c);
+                        case kaper.actionType.PROMOTE:
+                            okaper.gPromote.keyEvent(c);
                             break;
-                        case MIST:
-                            okaper.gMist.keyEventChar(c);
+                        case kaper.actionType.MIST:
+                            okaper.gMist.keyEvent(c);
                             break;
-                        case ATTACK:
-                            okaper.gAttack.keyEventChar(c);
+                        case kaper.actionType.ATTACK:
+                            okaper.gAttack.keyEvent(c);
                             break;
-                        case HARBOR:
-                            okaper.gHarbor.keyEventChar(c);
+                        case kaper.actionType.HARBOR:
+                            okaper.gHarbor.keyEvent(c);
                             break;
-                        case CITY:
-                            okaper.gCity.keyEventChar(c);
+                        case kaper.actionType.CITY:
+                            okaper.gCity.keyEvent(c);
                             break;
-                        case HELP:
-                            okaper.gHelp.keyEventChar(c);
+                        case kaper.actionType.HELP:
+                            okaper.gHelp.keyEvent(c);
                             break;
                     }
                     okaper.repaint();
                     break;
                     
-                case GAME_LOST:
+            case kaper.stepType.GAME_LOST:
                     okaper.setCurrentStep(kaper.stepType.HIGHSCORE);
                     okaper.repaint();
                     break;
                     
-                case HIGHSCORE:
+            case kaper.stepType.HIGHSCORE:
                     // Last screen - start game anew
                     okaper.currentPlayer.resetPlayer();
                     okaper.gMap.resetMap();

@@ -17,8 +17,8 @@
  */
 function enemy(k, a)
 {
-    applet = k;
-    currentAttack = a;
+    this.applet = k;
+    this.currentAttack = a;
 
     // General enemy variables
     this.enemyType = null; // Type of enemy

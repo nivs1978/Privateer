@@ -50,14 +50,15 @@ function mist(k)
 
             g.drawImage(this.font.getResource("MistType" + this.currentMist + "1"), 0, 0);
             var temp = this.font.getResourceAsString("MistType" + this.currentMist + "2");
-            if (this.currentMist == 3 || this.currentMist == 4) temp = temp.replace("{0}", this.String.valueOf(currentAmount)); // Grain or jewels found
+            if (this.currentMist == 3 || this.currentMist == 4)
+                temp = temp.replace("{0}", this.currentAmount); // Grain or jewels found
             g.drawImage(this.font.getString(temp), 0, 16);
                 
             // Some mist types has more text lines to add
             if (this.currentMist > 4)
             {
                 temp = this.font.getResourceAsString("MistType" + this.currentMist + "3");
-                if (this.currentMist == 5) temp = temp.replace("{0}", String.valueOf(this.currentAmount)); // Taels found
+                if (this.currentMist == 5) temp = temp.replace("{0}", this.currentAmount); // Taels found
                 g.drawImage(this.font.getString(temp), 0, 32);
                 moreLines += 16;
             }
@@ -76,7 +77,7 @@ function mist(k)
     /**
      * Controls keyboard character events
      */
-    this.keyEventChar = function(c)
+    this.keyEvent = function(c)
     {
         if (this.currentMist == 0) // User has not desided whether to investigate yet
         {
@@ -111,7 +112,7 @@ function mist(k)
     /**
      * Controls keyboard arrow events
      */
-            this.keyEventCode = function(i) {} // No arrow events on mist screens
+           // this.keyEventCode = function(i) {} // No arrow events on mist screens
 
     
     // ------------------- Methods in this game object not specified by interface -------------------

@@ -113,7 +113,7 @@ function harbor(k)
                 
             case harbor.actionType.HARBOR_DEAD:
                 g.drawImage(this.font.getResource("Dead1"), 0, 0);
-                if (this.font.getResourceAsString("Dead2").length() > 0)
+                if (this.font.getResourceAsString("Dead2").length > 0)
                 {
                     g.drawImage(this.font.getResource("Dead2"), 0, 16);
                     g.drawImage(this.font.getResource("Continue"), 0, 32);
