@@ -1,6 +1,6 @@
 ﻿function Toolkit()
 {
-    this.GetDefaultToolkit = function()
+    this.getDefaultToolkit = function()
     {
         var defaulttoolkit = function () { }
         defaulttoolkit.beep()= function() {

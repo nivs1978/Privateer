@@ -268,7 +268,7 @@ function player(k)
     }
     this.setMen = function(m)
     {
-        this.men = m;
+        this.men = Math.floor(m);
         if (this.men < 0) this.men = 0;
     }
 
@@ -281,7 +281,7 @@ function player(k)
     }
     this.setCannons = function(c)
     {
-        this.cannons = c;
+        this.cannons = Math.floor(c);
         if (this.cannons < 0) this.cannons = 0;
     }
 
@@ -294,7 +294,7 @@ function player(k)
     }
     this.setReparation = function(r)
     {
-        reparation = r;
+        reparation = Math.floor(r);
         if (this.reparation < 0) this.reparation = 0;
     }
 
@@ -307,7 +307,7 @@ function player(k)
     }
     this.setJewels = function(j)
     {
-        this.jewels = j;
+        this.jewels = Math.floor(j);
     }   
     
     /**
@@ -355,12 +355,12 @@ function player(k)
      */
     this.getRankType1 = function()
     {
-        var internalRankName = this.rankType1[(this.difficulty - 2) / 2];
+        var internalRankName = this.rankType1[(Math.floor(this.difficulty - 2) / 2)];
         return this.applet.getCGAFont().getResourceAsString("PlayerRank1_" + internalRankName);
     }
     this.getRankType2 = function()
     {
-        var internalRankName = this.rankType2[(this.difficulty - 2) / 2];
+        var internalRankName = this.rankType2[Math.floor((this.difficulty - 2) / 2)];
         return this.applet.getCGAFont().getResourceAsString("PlayerRank2_" + internalRankName);
     }
 
@@ -373,7 +373,7 @@ function player(k)
     }
     this.addToPrizeMen = function(m)
     {
-        this.prizeMen += m;
+        this.prizeMen += Math.floor(m);
     }   
 
     /**
@@ -385,7 +385,7 @@ function player(k)
     }
     this.addToPrizeMoney = function(m)
     {
-        this.prizeMoney += m;
+        this.prizeMoney += Math.floor(m);
     }   
 }
 

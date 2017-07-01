@@ -25,9 +25,6 @@ function board(k, e, a)
     this.currentEnemy = e;
     this.currentAttack = a;
     
-    this.currentAttack = null;
-    this.currentEnemy = null;
-    
     this.shipY = 0;
     this.flagY = 0;
     
@@ -84,16 +81,16 @@ function board(k, e, a)
         if (this.currentState != board.stateType.SHIP_ANIMATION)
         {
             this.applet.getMap().paint(g); // Paint stats in bottom of screen
-            g.drawImage(font.getResource("Boarding1"), 0, 128);
+            g.drawImage(this.font.getResource("Boarding1"), 0, 128);
             var enemyName = this.currentEnemy.getName();
             if (this.currentEnemy.getEnemyType() != 7)
-                enemyName = this.font.getResourceAsString("BoardingEnemyName1") + this.enemyName.substring(this.enemyName.indexOf(" "));
+                enemyName = this.font.getResourceAsString("BoardingEnemyName1") + enemyName.substring(enemyName.indexOf(" "));
             else
                 enemyName = this.font.getResourceAsString("BoardingEnemyName2");
             g.drawImage(this.font.getResource("Boarding2", enemyName), 0, 144);
-            g.drawImage(this.font.getResource("Boarding3", enemyMenLostShow), 0, 160);
-            g.drawImage(this.font.getResource("Boarding4", enemyMenShow), 0, 176);
-            g.drawImage(this.font.getResource("Boarding5", playerMenLostShow), 0, 192);
+            g.drawImage(this.font.getResource("Boarding3", this.enemyMenLostShow), 0, 160);
+            g.drawImage(this.font.getResource("Boarding4", this.enemyMenShow), 0, 176);
+            g.drawImage(this.font.getResource("Boarding5", this.playerMenLostShow), 0, 192);
             g.drawImage(this.font.getResource("Boarding6"), 0, 224);
             g.drawImage(this.font.getResource("Boarding7"), 0, 240);
             if (this.currentState == board.stateType.FLAG_ANIMATION) // Hack - needed for flag animation scene
@@ -107,7 +104,7 @@ function board(k, e, a)
     /**
      * Controls keyboard character events
      */
-this.keyEventChar = function(c)
+this.keyEvent = function(c)
     {
     if (this.currentState == board.stateType.BOARDING)
         {
@@ -120,15 +117,7 @@ this.keyEventChar = function(c)
                 this.currentAttack.setCurrentAttack(attack.attackType.WITHDRAW);
         }
     }
-    
-    /**
-     * Controls keyboard arrow events
-     */
-        this.keyEventCode = function(i)
-    {
-    }
-    
-    
+        
     // ------------------- Methods in this game object not specified by interface -------------------
 
     
@@ -146,9 +135,9 @@ this.keyEventChar = function(c)
         }
         else // Animation done
         {
-            applet.animationRepaint = false;
-            currentState = stateType.BOARDING;
-            boardEnemy(); // Make first boarding
+            this.applet.animationRepaint = false;
+            this.currentState = board.stateType.BOARDING;
+            this.boardEnemy(); // Make first boarding
         }
     }
     
@@ -176,11 +165,11 @@ this.keyEventChar = function(c)
      */
     this.boardEnemy = function()
     {
-        var playerMen = currentPlayer.getMen();
-        var playerExp = currentPlayer.getExperience();
-        var playerLost = currentPlayer.getBattlesLost();
-        var playerDiff = currentPlayer.getDifficulty();
-        var enemyMen = currentEnemy.getMen();
+        var playerMen = this.currentPlayer.getMen();
+        var playerExp = this.currentPlayer.getExperience();
+        var playerLost = this.currentPlayer.getBattlesLost();
+        var playerDiff = this.currentPlayer.getDifficulty();
+        var enemyMen = this.currentEnemy.getMen();
         var enemyMenTenth = Math.round(enemyMen / 10);
         
         // Calculate win/loose factor
@@ -201,7 +190,7 @@ this.keyEventChar = function(c)
         this.currentPlayer.checkPlayerStatus();
         
         // No need to go any furhter if player died by enemy hand
-        if (currentPlayer.getDeathReason() != player.causeOfDeath.NOT_YET)
+        if (this.currentPlayer.getDeathReason() != player.causeOfDeath.NOT_YET)
             return;        
 
         // Calculate enemy loses

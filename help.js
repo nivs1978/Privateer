@@ -88,7 +88,7 @@ function help(k)
     /**
      * Controls keyboard character events
      */
-    this.keyEventChar = function(c)
+    this.keyEvent = function(c)
     {
         // Change menu if number pressed and on main page
         if (this.currentMenu == 10 && c >= 48 && c <= 57)
@@ -134,14 +134,6 @@ function help(k)
                 this.resetMenu();
         }
     }
-    
-    /**
-     * Controls keyboard arrow events
-     */
-    this.keyEventCode = function(i)
-    {
-    }
-    
     
     // ------------------- Methods in this game object not specified by interface -------------------
 

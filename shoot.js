@@ -58,21 +58,21 @@ function shoot(k, e, a)
             g.drawImage(this.font.getResource("Shooting5"), 265, 240);
         else
             g.drawImage(this.font.getResource("Shooting11"), 265, 240);
-        g.drawImage(font.getResource("Shooting6", enemyDistance), 25, 272);
-        g.drawImage(font.getResource("Shooting2"), 281, 272);
-        g.drawImage(font.getResource("Shooting1"), 473, 272);
-        g.drawImage(font.getResource("Shooting7"), 25, 304);
-        g.drawImage(font.getString(String.valueOf(windStrength)), 57, 320);
-        g.drawImage(font.getResource("Shooting8"), 121, 304);
-        g.drawImage(font.getResource("Shooting9"), 121, 336);
-        g.drawImage(font.getResource("Shooting10"), 121, 368);
-        g.drawImage(font.getString(String.valueOf(currentPlayer.getCannons())), 265, 304);
-        g.drawImage(font.getString(String.valueOf(currentPlayer.getMen())), 265, 336);
-        g.drawImage(font.getString(String.valueOf(currentPlayer.getReparation())), 265, 368);
-        g.drawImage(font.getString(String.valueOf(currentEnemy.getCannons())), 457, 304);
-        g.drawImage(font.getString(String.valueOf(currentEnemy.getMen())), 457, 336);
-        g.drawImage(font.getString(String.valueOf(currentEnemy.getReparation())), 457, 368);
-        g.drawImage(img_shoot_cross, 449 + shotSide, 80 + shotElevation);
+        g.drawImage(this.font.getResource("Shooting6", this.enemyDistance), 25, 272);
+        g.drawImage(this.font.getResource("Shooting2"), 281, 272);
+        g.drawImage(this.font.getResource("Shooting1"), 473, 272);
+        g.drawImage(this.font.getResource("Shooting7"), 25, 304);
+        g.drawImage(this.font.getString(this.windStrength), 57, 320);
+        g.drawImage(this.font.getResource("Shooting8"), 121, 304);
+        g.drawImage(this.font.getResource("Shooting9"), 121, 336);
+        g.drawImage(this.font.getResource("Shooting10"), 121, 368);
+        g.drawImage(this.font.getString(this.currentPlayer.getCannons()), 265, 304);
+        g.drawImage(this.font.getString(this.currentPlayer.getMen()), 265, 336);
+        g.drawImage(this.font.getString(this.currentPlayer.getReparation()), 265, 368);
+        g.drawImage(this.font.getString(this.currentEnemy.getCannons()), 457, 304);
+        g.drawImage(this.font.getString(this.currentEnemy.getMen()), 457, 336);
+        g.drawImage(this.font.getString(this.currentEnemy.getReparation()), 457, 368);
+        g.drawImage(this.img_shoot_cross, 449 + this.shotSide, 80 + this.shotElevation);
                 
         // If player has been promoted at least twice, shooting should be more difficult
         if (this.currentPlayer.getDifficulty() > 4)
@@ -104,7 +104,7 @@ function shoot(k, e, a)
     /**
      * Control character key events which happens on enemy screens
      */
-this.keyEventChar = function(c)
+this.keyEvent = function(c)
     {
     switch (this.currentState)
         {
@@ -136,18 +136,11 @@ this.keyEventChar = function(c)
             this.currentState = shoot.stateType.SHOOTING;
                 break;
         }
-    }
-    
-    /**
-     * Control arrow key events which happens on enemy screens
-     */
-this.keyEventCode = function(i)
-    {
-        // Arrow keys pressed at shooting screen - move shot cross
-        if (i >= 33 && i <= 40 && this.currentState == shoot.stateType.SHOOTING)
-            this.moveShotCross(i);
-    }
-    
+    // Arrow keys pressed at shooting screen - move shot cross
+    if (i >= 33 && i <= 40 && this.currentState == shoot.stateType.SHOOTING)
+        this.moveShotCross(i);
+}
+        
     // ------------------- Methods in this game object not specified by interface -------------------
     
     /**
@@ -295,7 +288,7 @@ this.keyEventCode = function(i)
         var elevationValue = 10 * ((this.windDirection % 3) - 1);
         var shotHorizontal = Math.round(this.windStrength * sideValue * 0.1) +
                              Math.round((sideValue * 0.2 * Math.random()) - (shotSide * 0.2));
-        var shotVertical = enemyDistance - (700 + (windStrength * elevationValue) - (10 * shotElevation) + r.nextInt(50) - r.nextInt(50));
+        var shotVertical = this.enemyDistance - (700 + (this.windStrength * elevationValue) - (10 * this.shotElevation) + Math.floor(Math.random()*50) - r.nextInt(50));
         // Make sure that shot in within visual boundaries
         if (shotHorizontal > 20) shotHorizontal = 20;
         if (shotHorizontal < -20) shotHorizontal = -20;
@@ -305,9 +298,9 @@ this.keyEventCode = function(i)
             shotVertical <= 0 && shotVertical >= -50)
         {
             // Player hits enemy - calculate enemy loses
-            pMen = currentPlayer.getMen();
-            pRep = currentPlayer.getReparation();
-            pCan = currentPlayer.getCannons();
+            pMen = this.currentPlayer.getMen();
+            pRep = this.currentPlayer.getReparation();
+            pCan = this.currentPlayer.getCannons();
 
             var tempRep = eRep - Math.round((2 * pCan) / pDif) + shotVertical;
             if (tempRep < eRep) currentEnemy.setReparation(tempRep);

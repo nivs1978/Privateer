@@ -114,7 +114,7 @@ function enemy(k, a)
 
     this.setMen = function(m)
     {
-        this.men = m;
+        this.men = Math.floor(m);
         if (this.men < 0) this.men = 0;
     }
 
@@ -127,7 +127,7 @@ function enemy(k, a)
     }
     this.setCannons = function(c)
     {
-        this.cannons = c;
+        this.cannons = Math.floor(c);
         if (this.cannons < 0) this.cannons = 0;
     }
 
@@ -140,7 +140,7 @@ function enemy(k, a)
     }
     this.setReparation = function(r)
     {
-        this.reparation = r;
+        this.reparation = Math.floor(r);
         if (this.reparation < 0) this.reparation = 0;
     }
     
@@ -149,7 +149,7 @@ function enemy(k, a)
      */
     this.getPrizeCost = function()
     {
-        return 5 + this.men / 2;
+        return Math.floor(5 + this.men / 2);
     }
     
     /**

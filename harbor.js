@@ -128,7 +128,7 @@ function harbor(k)
     /**
      * Controls keyboard character events
      */
-    this.keyEventChar = function(c)
+    this.keyEvent = function(c)
     {
         switch (this.currentAction)
         {
@@ -139,6 +139,18 @@ function harbor(k)
             case harbor.actionType.SAILING:
                 if (this.playerShip[1] == 0) // Start animation
                     this.applet.animationRepaint = true;
+                    // Start animation if not allready started
+                    if (this.playerShip[1] == 0)
+                        this.applet.animationRepaint = true;
+
+                    // Move ship if arrow left or right pressed
+                    if (this.playerMove == 0) {
+                        if (i == 37)
+                            this.playerMove = 1; // Player moves left
+                        else if (i == 39)
+                            this.playerMove = 2; // Player moves right
+                    }
+                
                 break;
                 
             case harbor.actionType.HARBOR_PRIZES: // Collect players prizes
@@ -151,29 +163,6 @@ function harbor(k)
                 break;
         }
     }
-    
-    /**
-     * Controls keyboard arrow events
-     */
-    this.keyEventCode = function(i)
-    {
-        if (this.currentAction == harbor.actionType.SAILING) // Arrows only used when sailing
-        {
-            // Start animation if not allready started
-            if (this.playerShip[1] == 0)
-                this.applet.animationRepaint = true;
-
-            // Move ship if arrow left or right pressed
-            if (this.playerMove == 0)
-            {
-                if (i == 37)
-                    this.playerMove = 1; // Player moves left
-                else if (i == 39)
-                    this.playerMove = 2; // Player moves right
-            }
-        }
-    }
-    
     
     // ------------------- Methods in this game object not specified by interface -------------------
 

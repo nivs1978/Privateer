@@ -80,16 +80,16 @@ function attack(k)
             case attack.attackType.WON_PRIZING:
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
                 g.drawImage(this.font.getResource("AttackSurrender1"), 0, 0);
-                g.drawImage(this.font.getResource("AttackSurrender2", currentEnemy.getMoney()), 0, 16);
+                g.drawImage(this.font.getResource("AttackSurrender2", this.currentEnemy.getMoney()), 0, 16);
                 if (this.currentEnemy.getMen() > 1)
-                    g.drawImage(this.font.getResource("AttackSurrender3", currentEnemy.getMen()), 0, 32);
+                    g.drawImage(this.font.getResource("AttackSurrender3", this.currentEnemy.getMen()), 0, 32);
                 else
                     g.drawImage(this.font.getResource("AttackSurrender4"), 0, 32);
-                g.drawImage(this.font.getResource("AttackSurrender5", currentEnemy.getGrain()), 0, 48);
+                g.drawImage(this.font.getResource("AttackSurrender5", this.currentEnemy.getGrain()), 0, 48);
                 g.drawImage(this.font.getResource("AttackSurrender6"), 0, 64);
                 g.drawImage(this.font.getResource("AttackSurrender7"), 0, 96);
-                g.drawImage(this.font.getResource("AttackSurrender8", currentEnemy.getPrizeCost()), 0, 112);
-                g.drawImage(this.font.getResource("AttackSurrender9", currentPlayer.getMen()), 0, 128);
+                g.drawImage(this.font.getResource("AttackSurrender8", this.currentEnemy.getPrizeCost()), 0, 112);
+                g.drawImage(this.font.getResource("AttackSurrender9", this.currentPlayer.getMen()), 0, 128);
                 g.drawImage(this.font.getResource("AttackSurrender10"), 0, 144);
                 g.drawImage(this.font.getResource("AttackSurrender11"), 0, 160);
                 if (this.currentAttack == attack.attackType.WON_PRIZING)
@@ -164,7 +164,7 @@ function attack(k)
                     this.currentShoot.keyEvent(c);
                 
                 if (this.currentPlayer.getDeathReason() != player.causeOfDeath.NOT_YET)
-                    this.resetAttack(type.LOST);
+                    this.resetAttack(attack.type.LOST);
                 // Hack - needed to finish flag animation in boarding scene since game status has not been updated yet
                 //else if (currentEnemy.getCurrentState() != enemy.stateType.GOOD)
                 else if (this.currentEnemy.getMen() < 20)
@@ -214,7 +214,7 @@ function attack(k)
             case attack.attackType.WON_PRIZING:
                 // Cannont do these thing before all earlier data has been put on screen for the player
                 this.currentPlayer.setMen(this.currentPlayer.getMen() - this.currentEnemy.getPrizeCost());
-                this.resetAttack(type.WON);
+                this.resetAttack(attack.type.WON);
                 this.currentPlayer.checkPlayerStatus(); // Check if player didn't have enough men for prizing
                 break;
 

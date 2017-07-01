@@ -41,8 +41,8 @@ function city(k)
         this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
         
         // Show information at top of screen
-        g.drawImage(this.font.getResource("Map1", currentPlayer.getScore()), 41, 0);
-        g.drawImage(this.font.getResource("Map2", currentPlayer.getScoreToNextPromotion(), currentPlayer.getMaxMovesBeforeNextPromotion()), 249, 0);
+        g.drawImage(this.font.getResource("Map1", this.currentPlayer.getScore()), 41, 0);
+        g.drawImage(this.font.getResource("Map2", this.currentPlayer.getScoreToNextPromotion(), this.currentPlayer.getMaxMovesBeforeNextPromotion()), 249, 0);
 
         // Show help keys
         g.drawImage(this.font.getResource("Map3"), 41, 304); // F1
@@ -50,49 +50,51 @@ function city(k)
         g.drawImage(this.font.getResource("Map5"), 473, 304); // F3
 
         // Show information at bottom of screen
-        g.drawImage(this.font.getResource("Map6", currentPlayer.getMoves()), 25, 336);
-        g.drawImage(this.font.getResource("Map7", currentPlayer.getMoney()), 217, 336);
-        g.drawImage(this.font.getResource("Map8", currentPlayer.getGrain()), 441, 336);
-        g.drawImage(this.font.getResource("Map9", currentPlayer.getMen()), 25, 368);
-        g.drawImage(this.font.getResource("Map10", currentPlayer.getCannons()), 217, 368);
-        g.drawImage(this.font.getResource("Map11", currentPlayer.getReparation()), 441, 368);
+        g.drawImage(this.font.getResource("Map6", this.currentPlayer.getMoves()), 25, 336);
+        g.drawImage(this.font.getResource("Map7", this.currentPlayer.getMoney()), 217, 336);
+        g.drawImage(this.font.getResource("Map8", this.currentPlayer.getGrain()), 441, 336);
+        g.drawImage(this.font.getResource("Map9", this.currentPlayer.getMen()), 25, 368);
+        g.drawImage(this.font.getResource("Map10", this.currentPlayer.getCannons()), 217, 368);
+        g.drawImage(this.font.getResource("Map11", this.currentPlayer.getReparation()), 441, 368);
         
         // Show city menu
-        g.drawImage(this.font.getResource("City1", currentCity), 0, 32);
+        g.drawImage(this.font.getResource("City1", this.currentCity), 0, 32);
         if (currentAction == actionType.NONE)
             g.drawImage(this.font.getResource("City2", ""), 0, 64);
         else if (currentAction == actionType.BUY)
-            g.drawImage(this.font.getResource("City2", currentActionChar), 0, 64);
+            g.drawImage(this.font.getResource("City2", this.currentActionChar), 0, 64);
         else // Then player must be selling
             g.drawImage(this.font.getResource("City2", "5"), 0, 64);
-        g.drawImage(this.font.getResource("City3", pResources[0]), 0, 96);
-        g.drawImage(this.this.font.getResource("City4", pResources[1]), 0, 112);
-        g.drawImage(this.font.getResource("City5", pResources[2]), 0, 128);
-        g.drawImage(this.font.getResource("City6", pResources[3]), 0, 144);
+        g.drawImage(this.font.getResource("City3", this.pResources[0]), 0, 96);
+        g.drawImage(this.this.font.getResource("City4", this.pResources[1]), 0, 112);
+        g.drawImage(this.font.getResource("City5", this.pResources[2]), 0, 128);
+        g.drawImage(this.font.getResource("City6", this.pResources[3]), 0, 144);
         g.drawImage(this.ont.getResource("City7"), 0, 160);
         g.drawImage(this.font.getResource("City8"), 0, 176);
         
         // Show buying text
         if (this.currentAction == actionType.BUY)
-            g.drawImage(font.getResource("CityBuy1", currentBuySellAmount), 0, 208);
+            g.drawImage(this.font.getResource("CityBuy1", this.currentBuySellAmount), 0, 208);
         
         // Show selling text
         if (this.currentAction == actionType.SELL_1 ||
             this.currentAction == actionType.SELL_2)
-            g.drawImage(font.getResource("CitySell1"), 0, 208);
-        if (cthis.this.urrentAction == actionType.SELL_2)
-            g.drawImage(font.getResource("CitySell" + (currentActionChar - 1), currentBuySellAmount), 0, 224);
+            g.drawImage(this.font.getResource("CitySell1"), 0, 208);
+        if (this.this.currentAction == actionType.SELL_2)
+            g.drawImage(this.font.getResource("CitySell" + (this.currentActionChar - 1), this.currentBuySellAmount), 0, 224);
         
         // Show error if buying or selling goes wrong
         if (this.currentBuySellError.length > 0)
-            g.drawImage(this.font.getString(currentBuySellError), 0, 240);
+            g.drawImage(this.font.getString(this.currentBuySellError), 0, 240);
     }
 
     /**
      * Controls keyboard character events
      */
-    this.keyEventChar = function(c)
+    this.keyEvent = function(c)
     {
+        if (i == 112) // F1 pressed - show help menu
+            this.applet.setCurrentAction(kaper.actionType.HELP);
         if (this.currentAction == city.actionType.NONE)
         {
             switch(c)
@@ -178,16 +180,6 @@ function city(k)
             this.resetAction();
         }
     }
-    
-    /**
-     * Controls keyboard arrow events
-     */
-    this.keyEventCode = function(i)
-    {
-        if (i == 112) // F1 pressed - show help menu
-            this.applet.setCurrentAction(kaper.actionType.HELP);
-    }    
-    
     
     // ------------------- Methods in this game object not specified by interface -------------------
 

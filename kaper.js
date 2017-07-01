@@ -169,7 +169,7 @@ function kaper()
                 var moreLines = 0; // Depending on death reason, extra lines may need to be added
                 var temp= null; // Used when building up text strings
                 
-                if (this.currentPlayer.getDeathReason() == this.player.causeOfDeath.TOO_MANY_MOVES)
+                if (this.currentPlayer.getDeathReason() == player.causeOfDeath.TOO_MANY_MOVES)
                 {
                     this.osgrp.drawImage(this.font.getResource("CauseOfDeath_TOO_MANY_MOVES1"), 0, 0);
                     this.osgrp.drawImage(this.font.getResource("CauseOfDeath_TOO_MANY_MOVES2"), 0, 32);
@@ -183,7 +183,7 @@ function kaper()
                     this.osgrp.drawImage(this.font.getResource("EndGame2"), 0, 80);
                     this.osgrp.drawImage(this.font.getResource("EndGame3", this.currentPlayer.getScore(), this.currentPlayer.getMoney()), 0, 96);
 
-                    if (this.currentPlayer.getDeathReason() != this.player.causeOfDeath.TOO_FEW_RESOURCES)
+                    if (this.currentPlayer.getDeathReason() != player.causeOfDeath.TOO_FEW_RESOURCES)
                     {
                         this.osgrp.drawImage(this.font.getResource("CauseOfDeath_" + this.currentPlayer.getDeathReason()), 0, 144);
                         this.osgrp.drawImage(this.font.getResource("CauseOfDeath"), 0, 160);
@@ -198,7 +198,7 @@ function kaper()
                 
             case kaper.stepType.HIGHSCORE:
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
-                this.osgrp.drawImage(this.font.getResource("HighScore1", String.valueOf(this.currentPlayer.getScore())), 192, 160);
+                this.osgrp.drawImage(this.font.getResource("HighScore1", this.currentPlayer.getScore()), 192, 160);
                 this.osgrp.drawImage(this.font.getResource("HighScore2"), 0, 336);
                 break;
         }
@@ -252,7 +252,7 @@ function kaper()
             
             // Check if any animation is currently being drawed
             if (this.animationRepaint && this.currentAction == kaper.actionType.ATTACK &&
-                this.gAttack.getCurrentBoard().getCurrentState() == shoot.stateType.SHIP_ANIMATION)
+                this.gAttack.getCurrentBoard().getCurrentState() == board.stateType.SHIP_ANIMATION)
             {
                 console.log("- boarding enemy");
                 // Boarding enemy animation happening
@@ -261,7 +261,7 @@ function kaper()
                 this.repaint();
             }
             else if (this.animationRepaint && this.currentAction == kaper.actionType.ATTACK &&
-                     this.gAttack.getCurrentBoard().getCurrentState() == shoot.stateType.FLAG_ANIMATION)
+                     this.gAttack.getCurrentBoard().getCurrentState() == board.stateType.FLAG_ANIMATION)
             {
                 console.log("- enemy surrender");
                 // Enemy surrender animation

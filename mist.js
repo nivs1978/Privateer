@@ -108,12 +108,6 @@ function mist(k)
             this.currentPlayer.checkPlayerStatus(); // Check if player has too many resources after mist
         }
     }
-
-    /**
-     * Controls keyboard arrow events
-     */
-           // this.keyEventCode = function(i) {} // No arrow events on mist screens
-
     
     // ------------------- Methods in this game object not specified by interface -------------------
 
