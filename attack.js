@@ -77,6 +77,7 @@ function attack(k)
                 break;
                 
             case attack.attackType.WON_SURRENDER:
+                playsound("taps");
             case attack.attackType.WON_PRIZING:
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
                 g.drawImage(this.font.getResource("AttackSurrender1"), 0, 0);
@@ -133,7 +134,7 @@ function attack(k)
                 else if (c.toLowerCase() == flee) // Go back to map
                     this.resetAttack(attack.type.LOST);
                 else // Player has to choose either Attack or Flee
-                    Toolkit.getDefaultToolkit().beep();
+                    playsound("beep"); //Toolkit.getDefaultToolkit().beep();
                 break;
             
             case attack.attackType.ATTACK:
@@ -152,7 +153,7 @@ function attack(k)
                     this.currentShoot.prepareShooting();
                 }
                 else // Player has to choose either Board or Shoot
-                    Toolkit.getDefaultToolkit().beep();
+                    playsound("beep"); //Toolkit.getDefaultToolkit().beep();
                     
                 break;
                 
@@ -208,7 +209,7 @@ function attack(k)
                         this.currentPlayer.setMen(newMen);
                 }
                 else // Player has to choose either Prize or Sink
-                    Toolkit.getDefaultToolkit().beep();
+                    playsound("beep"); //Toolkit.getDefaultToolkit().beep();
                 break;
                 
             case attack.attackType.WON_PRIZING:

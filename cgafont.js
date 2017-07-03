@@ -173,6 +173,7 @@ function cgafont()
    
     this.getString = function(str)
     {
+        str = str.toString();
         //console.log("getString: " + str);
         // Return image with CGA font text
             var img = document.createElement("canvas");

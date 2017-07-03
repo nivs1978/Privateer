@@ -92,7 +92,7 @@ function mist(k)
             else if (c.toLowerCase() == no) // Go back to map
                 this.applet.setCurrentAction(kaper.actionType.MAP);
             else // Player has to choose either Yes or No
-                Toolkit.getDefaultToolkit().beep();
+                playsound("beep"); //Toolkit.getDefaultToolkit().beep();
         }
         else if (this.currentMist == 1) // Enemy ship appears - go to attack screen
         {

@@ -72,7 +72,7 @@ function shoot(k, e, a)
         g.drawImage(this.font.getString(this.currentEnemy.getCannons()), 457, 304);
         g.drawImage(this.font.getString(this.currentEnemy.getMen()), 457, 336);
         g.drawImage(this.font.getString(this.currentEnemy.getReparation()), 457, 368);
-        g.drawImage(this.img_shoot_cross, 449 + this.shotSide, 80 + this.shotElevation);
+        g.drawImage(img_shoot_cross, 449 + this.shotSide, 80 + this.shotElevation);
                 
         // If player has been promoted at least twice, shooting should be more difficult
         if (this.currentPlayer.getDifficulty() > 4)
@@ -128,6 +128,8 @@ this.keyEvent = function(c)
                     this.resetShooting();
                     this.currentAttack.setCurrentAttack(attack.attackType.WITHDRAW);
                 }
+                // Arrow keys pressed at shooting screen - move shot cross
+                this.moveShotCross(c);
 
                 break;
                 
@@ -136,9 +138,6 @@ this.keyEvent = function(c)
             this.currentState = shoot.stateType.SHOOTING;
                 break;
         }
-    // Arrow keys pressed at shooting screen - move shot cross
-    if (i >= 33 && i <= 40 && this.currentState == shoot.stateType.SHOOTING)
-        this.moveShotCross(i);
 }
         
     // ------------------- Methods in this game object not specified by interface -------------------
@@ -177,39 +176,43 @@ this.keyEvent = function(c)
         // Translate keyboard input to change in arrow position
         switch (direction)
         {
-            case 33: // Up-right arrow pressed
+            case "9": // Up-right arrow pressed
                 this.shotSide += 2;
                 this.shotElevation -= 2;
                 break;
                 
-            case 34: // Down-right arrow pressed
+            case "3": // Down-right arrow pressed
                 this.shotSide += 2;
                 this.shotElevation += 2;
                 break;
                 
-            case 35: // Down-left arrow pressed
+            case "1": // Down-left arrow pressed
                 this.shotSide -= 2;
                 this.shotElevation += 2;
                 break;
                     
-            case 36: // Up-left arrow pressed
+            case "7": // Up-left arrow pressed
                 this.shotSide -= 2;
                 this.shotElevation -= 2;
                 break;
                     
-            case 37: // Left arrow pressed
+            case "4": // Left arrow pressed
+            case "ArrowLeft":
                 this.shotSide -= 2;
                 break;
                   
-            case 38: // Up arrow pressed
+            case "8": // Up arrow pressed
+            case "ArrowUp":
                 this.shotElevation -= 2;
                 break;
                     
-            case 39: // Right arrow pressed
+            case "6": // Right arrow pressed
+            case "ArrowRight":
                 this.shotSide += 2;
                 break;
                     
-            case 40: // Down arrow pressed
+            case "2": // Down arrow pressed
+            case "ArrowDown":
                 this.shotElevation += 2;
                 break;
         }
@@ -252,7 +255,7 @@ this.keyEvent = function(c)
         if (Math.random() > 0.4)
         {
             var cannonFactor = eCan / 1.4;
-            this.currentPlayer.setMen(pMen - Math.round(cannonFactor * lostFactor) - Math.round(pDif * Math.round() * 0.5));
+            this.currentPlayer.setMen       (pMen - Math.round(cannonFactor * lostFactor) - Math.round(pDif * Math.random() * 0.5));
         }
         // How many reparation points is lost
         if (Math.random() > 0.4)
@@ -286,9 +289,8 @@ this.keyEvent = function(c)
         // Calculate player shots
         var sideValue = 10 * ((this.windDirection / 3) - 1);
         var elevationValue = 10 * ((this.windDirection % 3) - 1);
-        var shotHorizontal = Math.round(this.windStrength * sideValue * 0.1) +
-                             Math.round((sideValue * 0.2 * Math.random()) - (shotSide * 0.2));
-        var shotVertical = this.enemyDistance - (700 + (this.windStrength * elevationValue) - (10 * this.shotElevation) + Math.floor(Math.random()*50) - r.nextInt(50));
+        var shotHorizontal = Math.round(this.windStrength * sideValue * 0.1) + Math.round((sideValue * 0.2 * Math.random()) - Math.round(this.shotSide * 0.2));
+        var shotVertical = this.enemyDistance - (700 + (this.windStrength * elevationValue) - (10 * this.shotElevation) + Math.floor(Math.random()*50) - Math.floor(Math.random()*50));
         // Make sure that shot in within visual boundaries
         if (shotHorizontal > 20) shotHorizontal = 20;
         if (shotHorizontal < -20) shotHorizontal = -20;
@@ -303,7 +305,7 @@ this.keyEvent = function(c)
             pCan = this.currentPlayer.getCannons();
 
             var tempRep = eRep - Math.round((2 * pCan) / pDif) + shotVertical;
-            if (tempRep < eRep) currentEnemy.setReparation(tempRep);
+            if (tempRep < eRep) this.currentEnemy.setReparation(tempRep);
             var tempCan = eCan - Math.round((Math.random() * 10) / pDif);
             this.currentEnemy.setCannons(tempCan);
             
@@ -346,7 +348,7 @@ this.keyEvent = function(c)
                 this.enemyShots[i] = [];
                 // Show shots in random area of enemy ship
                 this.enemyShots[i][0] = Math.floor(Math.random() * 220);
-                this.enemyShots[i][1] = Math.floot(Math.random() * 40);
+                this.enemyShots[i][1] = Math.floor(Math.random() * 40);
             }
         }
         else

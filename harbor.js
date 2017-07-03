@@ -41,7 +41,7 @@ function harbor(k)
      */
     this.paint = function(g)
     {
-        font.setCurrentMode(cgafont.modes.CGA_MODE2);
+        this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
 
         switch (this.currentAction)
         {
@@ -71,7 +71,7 @@ function harbor(k)
                 break;
                 
             case harbor.actionType.SAILING: // Player entering the harbor
-                for (var i = 0; i < harborShips.length; i++)
+                for (var i = 0; i < this.harborShips.length; i++)
                 {
                     var x = this.harborShips[i][0] * 20;
                     var y = this.harborShips[i][1] * 20 - this.playerShip[1] * 16;
@@ -82,20 +82,20 @@ function harbor(k)
                 g.drawImage(img_harbor_border_bottom, 612, bottomY);
                 for (var i = 1; i <= this.harborHoleLocation - 2; i++)
                     g.drawImage(img_harbor_border_bottom, 16*i, bottomY);
-                for (var i = harborHoleLocation + harborHoleSize - 1; i <= 38; i++)
+                for (var i = this.harborHoleLocation + this.harborHoleSize - 1; i <= 38; i++)
                     g.drawImage(img_harbor_border_bottom, 16*i, bottomY);
                 var borderY = 12 - this.playerShip[1] * 16;
                 g.drawImage(img_harbor_border, 0, borderY);
-                g.drawImage(img_harbor_bottom, 624, borderY);
+                g.drawImage(img_harbor_border, 624, borderY);
                 var shipX = 60 + this.playerShip[0] * 20;
                 g.drawImage(img_ship_map_mode2, shipX, 40);
                 var arrowsX = (shipX / 16) * 16; // Should use Math.round instead?
                 if (this.showWindArrows && this.currentWind == harbor.windType.LEFT)
                 {
                     var arrow = String.fromCharCode(27);
-                    g.drawImage(this.font.getString(arrow+arrow+arrow), arrowsX, 16); // Arrow pointing right
+                    g.drawImage(this.font.getString(arrow+arrow+arrow), arrowsX, 16); // Arrow pointing left
                 }
-                else if (showWindArrows && currentWind == windType.RIGHT)
+                else if (this.showWindArrows && this.currentWind == harbor.windType.RIGHT)
                 {
                     var arrow = String.fromCharCode(26);
                     g.drawImage(this.font.getString(arrow+arrow+arrow), arrowsX, 16); // Arrow pointing right
@@ -137,17 +137,14 @@ function harbor(k)
                 break;
                 
             case harbor.actionType.SAILING:
-                if (this.playerShip[1] == 0) // Start animation
-                    this.applet.animationRepaint = true;
-                    // Start animation if not allready started
-                    if (this.playerShip[1] == 0)
-                        this.applet.animationRepaint = true;
+                if (this.playerShip[1] == 0) // Start animation if not allready started
+                    this.applet.animationRepaint = true; 
 
                     // Move ship if arrow left or right pressed
                     if (this.playerMove == 0) {
-                        if (i == 37)
+                        if (c=="4" || c=="ArrowLeft")
                             this.playerMove = 1; // Player moves left
-                        else if (i == 39)
+                        else if (c=="6" || c=="ArrowRight")
                             this.playerMove = 2; // Player moves right
                     }
                 
@@ -174,8 +171,8 @@ function harbor(k)
     {
         this.collectPrizes = collect;
         this.currentCity = cityName;
-        this.currentAction = actionType.INTRO;
-        this.playerShip = new int[2];
+        this.currentAction = harbor.actionType.INTRO;
+        this.playerShip = [];
         this.playerShip[0] = 12;
         this.playerShip[1] = 0;
         this.playerMove = 0;
@@ -190,6 +187,7 @@ function harbor(k)
         this.harborShips = []
         for (var i = 0; i < noOfShips; i++)
         {
+            this.harborShips[i] = [];
             this.harborShips[i][0] = Math.round(Math.random()*29) + 1; // X coordinate
             this.harborShips[i][1] = Math.round(Math.random()*14) + 1; // Y coordinate
         }
@@ -212,7 +210,7 @@ function harbor(k)
         
             // Check for wind
         //Random r = new Random();
-        if (Math.random() <= currentPlayer.getDifficulty() / 18)
+        if (Math.random() <= this.currentPlayer.getDifficulty() / 18)
         {
             this.showWindArrows = true;
             
@@ -260,7 +258,7 @@ function harbor(k)
             
             // Check if player has reached the border hole
             var harborLeftBorderEnd = (this.harborHoleLocation - 1) * 16 - 1;
-            var harborRightBorderStart = (this.harborHoleLocation + harborHoleSize - 1) * 16;
+            var harborRightBorderStart = (this.harborHoleLocation + this.harborHoleSize - 1) * 16;
             var playerX = 60 + this.playerShip[0] * 20 + 10; // Center of player ships x-axis
             if (playerX <= harborLeftBorderEnd || playerX >= harborRightBorderStart)
         {

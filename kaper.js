@@ -67,9 +67,21 @@ function kaper()
 //        rootPane.putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);
     
         // Creates an offscreen image to be used for double buffer drawing
+//        this.maincontainer = document.createElement("div");
+//        this.maincontainer.style.width = "100%";
         this.osimg = document.createElement("canvas"); // createImage(APPLET_WIDTH, APPLET_HEIGHT);
         this.osimg.width=640;
         this.osimg.height = 480;
+
+        this.osimg.style.paddingLeft = 0;
+        this.osimg.style.paddingRight = 0;
+        this.osimg.style.marginLeft = "auto";
+        this.osimg.style.marginRight = "auto";
+        this.osimg.style.display = "block";
+        this.osimg.style.width = "640px";
+
+//        this.maincontainer.appendChild(this.osimg);
+        //document.getElementById("maincontainer").appendChild(this.osimg);
         document.getElementsByTagName("body")[0].appendChild(this.osimg);
         this.osgrp = this.osimg.getContext("2d"); // osimg.getGraphics();
         //osgrp.setXORMode(new Color(0,0,168));
@@ -132,6 +144,7 @@ function kaper()
                 break;
                 
             case kaper.stepType.TITLE_SCREEN:
+                playsound("intro");
                 var img = eval("img_title_" + this.font.getCurrentLocale());
                 this.osgrp.drawImage(img, 12, 0);
                 break;
@@ -274,10 +287,10 @@ function kaper()
             {
                 console.log("- sailing trough harbor");
                 // Sailing through harbour animation
-                gHarbor.showSailingAnimation();
+                this.gHarbor.showSailingAnimation();
                 // Faster animation later in game (made as in the original version)
-                sleepTime = 150 - (currentPlayer.getDifficulty() - 2) * 2;
-                repaint();
+                sleepTime = 150 - (this.currentPlayer.getDifficulty() - 2) * 2;
+                this.repaint();
             }
             
         // Sleep until next frame update

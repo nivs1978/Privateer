@@ -53,6 +53,16 @@ function getImage(url)
     return img;
 }
 
+var audioplayer = null;
+
+function playsound(name)
+{
+    if (audioplayer)
+        audioplayer.pause();
+    audioplayer = new Audio("audio/" + name + ".mp3");
+    audioplayer.play();
+}
+
 var img_ship_board_en = getImage("images/ship-board-en.png");
 var img_ship_board_da = getImage("images/ship-board-da.png");
 var img_flag_pole = getImage("images/flag-pole.png");
