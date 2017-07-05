@@ -60,12 +60,12 @@ function harbor(k)
                 if (this.currentWind == harbor.windType.LEFT)
                 {
                     g.drawImage(this.font.getResource("Harbor12"), 208, 208);
-                    g.drawImage(this.font.getString(String.fromCharCode(27)), 256, 224); // Arrow pointing right
+                    g.drawImage(this.font.getString(String.fromCharCode(128)), 256, 224); // Arrow pointing right
                 }
                 else
                 {
                     g.drawImage(this.font.getResource("Harbor13"), 208, 208);
-                    g.drawImage(this.font.getString(String.fromCharCode(26)), 256, 224); // Arrow pointing left
+                    g.drawImage(this.font.getString(String.fromCharCode(129)), 256, 224); // Arrow pointing left
                 }
                 g.drawImage(this.font.getResource("Continue"), 0, 256);
                 break;
@@ -89,15 +89,15 @@ function harbor(k)
                 g.drawImage(img_harbor_border, 624, borderY);
                 var shipX = 60 + this.playerShip[0] * 20;
                 g.drawImage(img_ship_map_mode2, shipX, 40);
-                var arrowsX = (shipX / 16) * 16; // Should use Math.round instead?
+                var arrowsX = Math.round(shipX); // Should use Math.round instead?
                 if (this.showWindArrows && this.currentWind == harbor.windType.LEFT)
                 {
-                    var arrow = String.fromCharCode(27);
+                    var arrow = String.fromCharCode(128);
                     g.drawImage(this.font.getString(arrow+arrow+arrow), arrowsX, 16); // Arrow pointing left
                 }
                 else if (this.showWindArrows && this.currentWind == harbor.windType.RIGHT)
                 {
-                    var arrow = String.fromCharCode(26);
+                    var arrow = String.fromCharCode(129);
                     g.drawImage(this.font.getString(arrow+arrow+arrow), arrowsX, 16); // Arrow pointing right
                 }
                 break;
@@ -290,4 +290,4 @@ function harbor(k)
 }
 
 harbor.actionType = { INTRO:0, SAILING:1, HARBOR_PRIZES:2, HARBOR_DEAD:3 };
-harbor.windType = { LEFT:0, RIGHT:0 };
+harbor.windType = { LEFT:0, RIGHT:1 };

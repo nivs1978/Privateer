@@ -157,17 +157,17 @@ function city(k)
             var grain = this.font.getResourceAsString("CitySellG").charAt(0);
             var jewels = this.font.getResourceAsString("CitySellJ").charAt(0);
             
-            if (c.charCodeAt(0) == cannons)
+            if (c == cannons)
             {
                 this.currentActionChar = 3;
                 this.currentAction = city.actionType.SELL_2;
             }
-            else if (c.charCodeAt(0) == grain)
+            else if (c == grain)
             {
                 this.currentActionChar = 4;
                 this.currentAction = city.actionType.SELL_2;
             }
-            else if (c.charCodeAt(0) == jewels)
+            else if (c == jewels)
             {
                 this.currentActionChar = 5;
                 this.currentAction = city.actionType.SELL_2;
@@ -175,7 +175,7 @@ function city(k)
             else // Player has to choose either Grain, Cannons or Jewels
                 playsound("beep"); //Toolkit.getDefaultToolkit().beep();
         }
-        else if (currentBuySellError.length > 0)
+        else if (this.currentBuySellError.length > 0)
         {
             // Warning showed, now reset the action
             this.resetAction();
