@@ -137,7 +137,7 @@ function cgafont()
     {
         // Get text from resource manager and replace string as told
         var str = this.getResourceAsString(res);
-        console.log("Skriver tekst: " + str);
+        //console.log("Skriver tekst: " + str);
         if (replace1!=null)
             str = str.replace("{0}",""+replace1);
         if (replace2!=null)
@@ -228,11 +228,11 @@ function cgafont()
     this.setCurrentLocale = function(locale)
     {
         if (locale == cgafont.localeType.DANISH) {
-            console.log("Setting localeType to DANISH");
+            //console.log("Setting localeType to DANISH");
             this.currentLocale = "da";
         }
         else {
-            console.log("Setting localeType to ENGLISH");
+            //console.log("Setting localeType to ENGLISH");
             this.currentLocale = "en";
         }
 
@@ -244,7 +244,7 @@ function cgafont()
      */
     this.loadResources = function()
     {
-        console.log("Setting locale to: "+this.currentLocale);
+        //console.log("Setting locale to: "+this.currentLocale);
         this.resources = lang[this.currentLocale]; //ResourceBundle.getBundle("resources", currentLocale);
         document.kaperresources = this.resources;
     }

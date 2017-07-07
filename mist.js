@@ -46,6 +46,7 @@ function mist(k)
         }
         else // Investigating mist
         {
+            playsound("b5th");
             var moreLines = 0; // Depending on mist type, extra lines may need to be added
 
             g.drawImage(this.font.getResource("MistType" + this.currentMist + "1"), 0, 0);

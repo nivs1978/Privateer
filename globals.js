@@ -57,6 +57,7 @@ var audioplayer = null;
 
 function playsound(name)
 {
+    console.log("Playing " + name);
     if (audioplayer)
         audioplayer.pause();
     audioplayer = new Audio("audio/" + name + ".mp3");

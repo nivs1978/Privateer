@@ -165,6 +165,7 @@ this.keyEvent = function(c)
      */
     this.boardEnemy = function()
     {
+        playsound("flute1");
         var playerMen = this.currentPlayer.getMen();
         var playerExp = this.currentPlayer.getExperience();
         var playerLost = this.currentPlayer.getBattlesLost();

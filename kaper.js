@@ -71,7 +71,7 @@ function kaper()
 //        this.maincontainer.style.width = "100%";
         this.osimg = document.createElement("canvas"); // createImage(APPLET_WIDTH, APPLET_HEIGHT);
         this.osimg.width=640;
-        this.osimg.height = 480;
+        this.osimg.height = 400;
 
         this.osimg.style.paddingLeft = 0;
         this.osimg.style.paddingRight = 0;
@@ -119,7 +119,7 @@ function kaper()
         this.osgrp.fillStyle = getColor(0, 0, 168); // this.osgrp.setColor();
         this.osgrp.fillRect(0, 0, this.osimg.width, this.osimg.height); // this.osgrp.fillRect(0, 0, APPLET_WIDTH, APPLET_HEIGHT);
 
-        console.log("currentStep: " + this.currentStep);
+        //console.log("currentStep: " + this.currentStep);
         // Draw graphics of the current step
         switch (this.currentStep)
         {
@@ -147,6 +147,7 @@ function kaper()
                 playsound("intro");
                 var img = eval("img_title_" + this.font.getCurrentLocale());
                 this.osgrp.drawImage(img, 12, 0);
+                this.osgrp.drawImage(this.font.getResource("Continue"), 0, 384);
                 break;
                 
             case kaper.stepType.GAME_PLAYING:
@@ -254,7 +255,7 @@ function kaper()
 */
     this.run = function()
     {
-        console.log("run()");
+        //console.log("run()");
         //Thread thisThread = Thread.currentThread();
         // Listen for animation events during entire game
         //while (animation == thisThread)

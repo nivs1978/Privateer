@@ -101,6 +101,7 @@ function attack(k)
                 break;
 
             case attack.attackType.WON_SUNK:
+                playsound("taps");
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
                 g.drawImage(this.font.getResource("AttackSunk1"), 0, 0);
                 var moreLines = 0;
@@ -132,7 +133,10 @@ function attack(k)
                 if (c.toLowerCase() == a) // Player attacks - ask how to attack
                     this.currentAttack = attack.attackType.ATTACK;
                 else if (c.toLowerCase() == flee) // Go back to map
+                {
+                    playsound("flee");
                     this.resetAttack(attack.type.LOST);
+                }
                 else // Player has to choose either Attack or Flee
                     playsound("beep"); //Toolkit.getDefaultToolkit().beep();
                 break;
