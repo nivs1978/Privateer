@@ -1,4 +1,21 @@
-﻿String.prototype.format = String.prototype.format ||
+﻿/*
+    This file is part of Privateer.
+
+    Privateer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Privateer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Privateer.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+String.prototype.format = String.prototype.format ||
 function () {
     "use strict";
     var str = this.toString();
@@ -57,7 +74,6 @@ var audioplayer = null;
 
 function playsound(name)
 {
-    console.log("Playing " + name);
     if (audioplayer)
         audioplayer.pause();
     audioplayer = new Audio("audio/" + name + ".mp3");

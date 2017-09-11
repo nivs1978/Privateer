@@ -1,3 +1,19 @@
+/*
+    This file is part of Privateer.
+
+    Privateer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Privateer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Privateer.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * <p>
  * This class encapsulates the original 8x8 font used in 320x200 CGA mode 1 and 2
@@ -137,7 +153,6 @@ function cgafont()
     {
         // Get text from resource manager and replace string as told
         var str = this.getResourceAsString(res);
-        //console.log("Skriver tekst: " + str);
         if (replace1!=null)
             str = str.replace("{0}",""+replace1);
         if (replace2!=null)
@@ -156,7 +171,6 @@ function cgafont()
         for (var i = 0; i < str.length; i++) {
             var chr = str.charCodeAt(i);
             chr = this.adjustCharCode(chr);
-            //console.log(str[i] + " = " + chr);
             chr = chr - 32;
             var x = chr % 16;
             var y = Math.floor(chr / 16);
@@ -174,7 +188,6 @@ function cgafont()
     this.getString = function(str)
     {
         str = str.toString();
-        //console.log("getString: " + str);
         // Return image with CGA font text
             var img = document.createElement("canvas");
             img.width = str.length*16;
@@ -182,14 +195,11 @@ function cgafont()
     
             var ctx = img.getContext("2d");
     
-            //ctx.clearRect(0, 0, img.width, img.height);
-
             var cursorx = 0;
     
             for (var i = 0; i < str.length; i++) {
                 var chr = str.charCodeAt(i);
                 chr = this.adjustCharCode(chr);
-                //console.log(str[i] + " = " + chr);
                 chr = chr - 32;
                 var x = chr % 16;
                 var y = Math.floor(chr / 16);
@@ -228,11 +238,9 @@ function cgafont()
     this.setCurrentLocale = function(locale)
     {
         if (locale == cgafont.localeType.DANISH) {
-            //console.log("Setting localeType to DANISH");
             this.currentLocale = "da";
         }
         else {
-            //console.log("Setting localeType to ENGLISH");
             this.currentLocale = "en";
         }
 
@@ -244,7 +252,6 @@ function cgafont()
      */
     this.loadResources = function()
     {
-        //console.log("Setting locale to: "+this.currentLocale);
         this.resources = lang[this.currentLocale]; //ResourceBundle.getBundle("resources", currentLocale);
         document.kaperresources = this.resources;
     }

@@ -1,3 +1,19 @@
+/*
+    This file is part of Privateer.
+
+    Privateer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Privateer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Privateer.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * <p>
  * This class encapsulates the player concept
@@ -224,11 +240,11 @@ function player(k)
      */
     this.getMoney = function()
     {
-        return this.money;
+        return Math.round(this.money);
     }
     this.setMoney = function(m)
     {
-        this.money = m;
+        this.money = Math.round(m);
     }
     
     /**
@@ -249,7 +265,7 @@ function player(k)
     }
     this.setGrain = function(g)
     {
-        this.grain = g;
+        this.grain = Math.round(g);
 
         // If no more grain, some of the players men dies instead
         if (this.grain < 0)
@@ -264,7 +280,7 @@ function player(k)
      */
     this.getMen = function()
     {
-        return this.men;
+        return Math.round(this.men);
     }
     this.setMen = function(m)
     {
@@ -277,7 +293,7 @@ function player(k)
      */
     this.getCannons = function()
     {
-        return this.cannons;
+        return Math.round(this.cannons);
     }
     this.setCannons = function(c)
     {
@@ -290,11 +306,11 @@ function player(k)
      */
     this.getReparation = function()
     {
-        return this.reparation;
+        return Math.round(this.reparation);
     }
     this.setReparation = function(r)
     {
-        reparation = Math.floor(r);
+        this.reparation = Math.floor(r);
         if (this.reparation < 0) this.reparation = 0;
     }
 
@@ -303,7 +319,7 @@ function player(k)
      */
     this.getJewels = function()
     {
-        return this.jewels;
+        return Math.round(this.jewels);
     }
     this.setJewels = function(j)
     {
@@ -369,11 +385,11 @@ function player(k)
      */
     this.getPrizeMen = function()
     {
-        return this.prizeMen;
+        return Math.round(this.prizeMen);
     }
     this.addToPrizeMen = function(m)
     {
-        this.prizeMen += Math.floor(m);
+        this.prizeMen = Math.round(this.prizeMen+Math.floor(m));
     }   
 
     /**
@@ -381,7 +397,7 @@ function player(k)
      */
     this.getPrizeMoney = function()
     {
-        return this.prizeMoney;
+        return Math.round(this.prizeMoney);
     }
     this.addToPrizeMoney = function(m)
     {

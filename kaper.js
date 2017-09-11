@@ -1,4 +1,20 @@
-﻿/**
+﻿/*
+    This file is part of Privateer.
+
+    Privateer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Privateer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Privateer.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
  * <p>
  * Kaptajn Kaper Applet version
  * (this class controls all parts besides the game itself,
@@ -119,7 +135,6 @@ function kaper()
         this.osgrp.fillStyle = getColor(0, 0, 168); // this.osgrp.setColor();
         this.osgrp.fillRect(0, 0, this.osimg.width, this.osimg.height); // this.osgrp.fillRect(0, 0, APPLET_WIDTH, APPLET_HEIGHT);
 
-        //console.log("currentStep: " + this.currentStep);
         // Draw graphics of the current step
         switch (this.currentStep)
         {
@@ -255,7 +270,6 @@ function kaper()
 */
     this.run = function()
     {
-        //console.log("run()");
         //Thread thisThread = Thread.currentThread();
         // Listen for animation events during entire game
         //while (animation == thisThread)
@@ -268,7 +282,6 @@ function kaper()
             if (this.animationRepaint && this.currentAction == kaper.actionType.ATTACK &&
                 this.gAttack.getCurrentBoard().getCurrentState() == board.stateType.SHIP_ANIMATION)
             {
-                console.log("- boarding enemy");
                 // Boarding enemy animation happening
                 this.gAttack.getCurrentBoard().showShipAnimation();
                 sleepTime = 20;
@@ -277,7 +290,6 @@ function kaper()
             else if (this.animationRepaint && this.currentAction == kaper.actionType.ATTACK &&
                      this.gAttack.getCurrentBoard().getCurrentState() == board.stateType.FLAG_ANIMATION)
             {
-                console.log("- enemy surrender");
                 // Enemy surrender animation
                 this.gAttack.getCurrentBoard().showFlagAnimation();
                 sleepTime = 10;
@@ -286,7 +298,6 @@ function kaper()
             else if (this.animationRepaint && this.currentAction == kaper.actionType.HARBOR &&
                      this.gHarbor.getCurrentAction() == harbor.actionType.SAILING)
             {
-                console.log("- sailing trough harbor");
                 // Sailing through harbour animation
                 this.gHarbor.showSailingAnimation();
                 // Faster animation later in game (made as in the original version)
