@@ -95,7 +95,7 @@ function shoot(k, e, a)
         {
             g.fillRect(31, 22, 278, 98); // Player cannot see where his own shots hit
             g.drawImage(img_flag_pole, 105, 24);
-            if (currentEnemy.getEnemyType() == 8) // Show Pirate flag if fighting Pirate ship, or else union jack
+            if (this.currentEnemy.getEnemyType() == 8) // Show Pirate flag if fighting Pirate ship, or else union jack
                 g.drawImage(img_flag_en, 115, 36);
             else
                 g.drawImage(img_flag_pirate, 115, 36);

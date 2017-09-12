@@ -277,7 +277,7 @@ function city(k)
      */
     this.sellResources = function()
     {
-        var amount = Math.random(this.currentBuySellAmount);
+        var amount = Math.round(this.currentBuySellAmount);
         var total = amount * this.pResources[this.currentActionChar - 1];
 
         // Check if trying to sell too many resources
