@@ -176,7 +176,8 @@ function kaper()
                 this.osgrp.drawImage(nameImg, 0, 128);
                 var name = this.currentPlayer.getName();
                 var showCursor = (Date.now() % 1000) < 500;
-                var nameWithCursor = name + (showCursor ? "_" : " ");
+                var cursorChar = showCursor ? String.fromCharCode(219) : " ";
+                var nameWithCursor = name + cursorChar;
                 var name_x_offset = nameImg.width + 16;
                 this.osgrp.drawImage(this.font.getString(nameWithCursor), name_x_offset, 128);
                 break;
@@ -250,7 +251,7 @@ function kaper()
                 
             case kaper.stepType.HIGHSCORE:
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
-                var highScoreHolder = this.highScore.name && this.highScore.name.length > 0 ? this.highScore.name : "---";
+                var highScoreHolder = this.highScore.name && this.highScore.name.length > 0 ? this.highScore.name : "Nelson himself!";
                 this.osgrp.drawImage(this.font.getResource("HighScore1", this.currentPlayer.getScore()), 192, 160);
                 this.osgrp.drawImage(this.font.getResource("RecordLabel", this.highScore.score), 192, 192);
                 this.osgrp.drawImage(this.font.getResource("RecordHolderLabel", highScoreHolder), 192, 208);

@@ -132,6 +132,8 @@ function cgafont()
     {
         switch (i) // Adjust to local font image
         {
+            case 219: // █ (CP437 full block)
+                return 143;
             case 198: // Æ
                 return 133;
             case 216: // Ø
