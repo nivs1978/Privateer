@@ -132,17 +132,17 @@ function cgafont()
     {
         switch (i) // Adjust to local font image
         {
-            case 198: // Æ
+            case 198: // ï¿½
                 return 133;
-            case 216: // Ø
+            case 216: // ï¿½
                 return 134;
-            case 197: // Å
+            case 197: // ï¿½
                 return 135;
-            case 230: // æ
+            case 230: // ï¿½
                 return 130;
-            case 248: // ø
+            case 248: // ï¿½
                 return 131;
-            case 229: // å
+            case 229: // ï¿½
                 return 132;
                 break;
         }
@@ -153,6 +153,9 @@ function cgafont()
     {
         // Get text from resource manager and replace string as told
         var str = this.getResourceAsString(res);
+        if (str == null) {
+            str = "";
+        }
         if (replace1!=null)
             str = str.replace("{0}",""+replace1);
         if (replace2!=null)
@@ -160,7 +163,7 @@ function cgafont()
         
         // Return image with CGA font text
         var img = document.createElement("canvas");
-        img.width = str.length*16;
+        img.width = Math.max(1, str.length * 16);
         img.height = 16;
 
         var ctx = img.getContext("2d");
@@ -187,10 +190,13 @@ function cgafont()
    
     this.getString = function(str)
     {
+        if (str == null) {
+            str = "";
+        }
         str = str.toString();
         // Return image with CGA font text
             var img = document.createElement("canvas");
-            img.width = str.length*16;
+            img.width = Math.max(1, str.length * 16);
             img.height = 16;
     
             var ctx = img.getContext("2d");
