@@ -70,14 +70,41 @@ function getImage(url)
     return img;
 }
 
-var audioplayer = null;
+var qbasicPlayer = new PlayStringPlayer();
+
+// Mapped from original QBasic source (PRIVATEE.BAS) where possible.
+var qbasicPlayStrings = {
+    intro: "T230L8MBMSCO3BO4C4O3CP8C4GFEGO4CP8CEDCD4O3D4D4O4D CO3BDGDG4ABO4C32D32C16O3BAGA32B32A16GFEF32G32F16EDCDCO2BAGO3CO2BO3DCEDFE16F16EC4C4",
+    taps: "T180MBO2L4G.G8O3C1P4O2G.O3C8E1P4O2G.O3C8E2O2G.O3C8E2O2G.O3C8E1P2C.O3E8G1.O2G.G8O3C1",
+    flute1: "MBT200L16O3CEGO4C..O3GO4C4",
+    b5th: "MBT200O2L8GGGE-2.P8FFFD2.",
+
+    // Original game used BEEP and SOUND sweeps for these.
+    beep: "T255O4L64C",
+    flee: "T255O5L32GFEDCBO4AGFEDC"
+};
+
+function ensureQbasicAudioUnlocked()
+{
+    qbasicPlayer.ensureAudio().catch(function () {
+        // Browser may still block until another explicit user gesture.
+    });
+}
+
+window.addEventListener("keydown", ensureQbasicAudioUnlocked);
+window.addEventListener("pointerdown", ensureQbasicAudioUnlocked, {passive: true});
 
 function playsound(name)
 {
-    if (audioplayer)
-        audioplayer.pause();
-    audioplayer = new Audio("audio/" + name + ".mp3");
-    audioplayer.play();
+    var playString = qbasicPlayStrings[name];
+    if (!playString)
+        return;
+
+    qbasicPlayer.ensureAudio().then(function () {
+        qbasicPlayer.play(playString);
+    }).catch(function () {
+        // Ignore blocked/failed playback attempts.
+    });
 }
 
 var img_ship_board_en = getImage("images/ship-board-en.png");
