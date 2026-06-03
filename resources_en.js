@@ -41,7 +41,7 @@ lang["en"] = {
         Welcome6: "of the original  game with all details",
         Welcome7: "and game logic included.",
         Welcome8: "kaper.barosaurussoftware.com",
-        Welcome9: "Do you want to  play the game in",
+        Welcome9: "Do you want to play the game in",
         Welcome10: "danish or english (D/E)?",
         PlayerName1: "Your ship looks like this:",
         PlayerName2: "What is your name:",
@@ -239,6 +239,8 @@ lang["en"] = {
         // HIGHSCORE screen strings
         HighScore1: "You got  {0}",
         HighScore2: "Press any key to start again.",
+        RecordLabel: "Rec.",
+        RecordHolderLabel: "Holder",
 
             // HELP menues
         HelpMain1: "Which subject do you want to study?:",

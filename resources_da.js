@@ -238,6 +238,8 @@ lang["da"] = {
     // HIGHSCORE screen strings
     HighScore1: "Du fik  {0}",
     HighScore2: "Tryk på en tast for at starte igen.",
+    RecordLabel: "Rek.",
+    RecordHolderLabel: "Indehaver",
 
     // HELP menues
     HelpMain1: "Hvilket emne ønsker du at høre om:",

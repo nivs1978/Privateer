@@ -172,7 +172,7 @@ function player(k)
 
     this.setName = function(n)
     {
-        this.name = n;
+        this.name = ("" + n).substring(0, 20);
     }
 
     /**

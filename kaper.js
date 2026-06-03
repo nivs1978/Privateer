@@ -57,6 +57,9 @@ function kaper()
     this.currentAction = null; // If playing, what is the current game action
     this.endScreenInputUnlockedAt = 0; // Timestamp when end screen key input is allowed again
 
+    this.highScoreStorageKey = "privateer.highscore.v1";
+    this.highScore = { score: 0, name: "" }; // Original game stores one record holder
+
     var okaper = this; // To be able to access this object from the keyboard functions
 
     this.addKeyListener = function()
@@ -113,6 +116,7 @@ function kaper()
         // Load resources and initialize a new player
         this.font = new cgafont(this);
         this.currentPlayer = new player(this);
+        this.loadHighScore();
 
         // Initialize game objects
         this.gMap = new map(this);
@@ -140,7 +144,6 @@ function kaper()
         switch (this.currentStep)
         {
             case kaper.stepType.INTRO_WELCOME:
-            case kaper.stepType.INTRO_ENTER_NAME:
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
                 this.osgrp.drawImage(this.font.getResource("Welcome1"), 128, 32);
                 this.osgrp.drawImage(this.font.getResource("Welcome2"), 32, 80);
@@ -149,18 +152,33 @@ function kaper()
                 this.osgrp.drawImage(this.font.getResource("Welcome5"), 32, 160);
                 this.osgrp.drawImage(this.font.getResource("Welcome6"), 16, 176);
                 this.osgrp.drawImage(this.font.getResource("Welcome7"), 128, 192);
-                this.osgrp.drawImage(this.font.getResource("Welcome9"), 64, 256);
-                this.osgrp.drawImage(this.font.getResource("Welcome10"), 128, 272);
+                this.osgrp.drawImage(this.font.getResource("Welcome9"), 64, 240);
+                this.osgrp.drawImage(this.font.getResource("Welcome10"), 128, 256);
                 this.osgrp.drawImage(this.font.getString(this.font.getResourceAsString("Welcome8")), 96, 360);
                 this.osgrp.drawImage(this.font.getString("v" + this.currentVersion), 196, 384);
-                if (this.currentStep == kaper.stepType.INTRO_WELCOME) break;
-                this.osgrp.drawImage(this.font.getResource("PlayerName1"), 96, 304);
-                this.osgrp.drawImage(img_ship_map_mode1, 528, 304);
-                this.osgrp.drawImage(this.font.getResource("PlayerName2"), 128, 320);
+
+                var recordName = this.highScore.name && this.highScore.name.length > 0 ? this.highScore.name : "Nelson himself!";
+                var recordValue = this.highScore.score || 256;
+                this.osgrp.drawImage(this.font.getResource("RecordLabel"), 40, 296);
+                this.osgrp.drawImage(this.font.getResource("RecordHolderLabel"), 144, 296);                
+                this.osgrp.drawImage(this.font.getString(((""+recordValue).padStart(5, " "))), 24, 312);
+                this.osgrp.drawImage(this.font.getString(recordName), 144, 312);
+
+                break;
+
+            case kaper.stepType.INTRO_ENTER_NAME:
+                this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
+                var labelImg = this.font.getResource("PlayerName1");
+                this.osgrp.drawImage(labelImg, 0, 112);
+                var label_x_offset = labelImg.width + 32;
+                this.osgrp.drawImage(img_ship_map_mode1, label_x_offset, 112);
+                var nameImg = this.font.getResource("PlayerName2");
+                this.osgrp.drawImage(nameImg, 0, 128);
                 var name = this.currentPlayer.getName();
                 var showCursor = (Date.now() % 1000) < 500;
                 var nameWithCursor = name + (showCursor ? "_" : " ");
-                this.osgrp.drawImage(this.font.getString(nameWithCursor), 432, 320);
+                var name_x_offset = nameImg.width + 16;
+                this.osgrp.drawImage(this.font.getString(nameWithCursor), name_x_offset, 128);
                 break;
                 
             case kaper.stepType.TITLE_SCREEN:
@@ -232,7 +250,10 @@ function kaper()
                 
             case kaper.stepType.HIGHSCORE:
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE2);
+                var highScoreHolder = this.highScore.name && this.highScore.name.length > 0 ? this.highScore.name : "---";
                 this.osgrp.drawImage(this.font.getResource("HighScore1", this.currentPlayer.getScore()), 192, 160);
+                this.osgrp.drawImage(this.font.getResource("RecordLabel", this.highScore.score), 192, 192);
+                this.osgrp.drawImage(this.font.getResource("RecordHolderLabel", highScoreHolder), 192, 208);
                 this.osgrp.drawImage(this.font.getResource("HighScore2"), 0, 336);
                 break;
         }
@@ -357,13 +378,18 @@ function kaper()
                     if (c.toLowerCase() == 'e')
                     {
                         okaper.font.setCurrentLocale(cgafont.localeType.ENGLISH);
-                        okaper.setCurrentStep(kaper.stepType.INTRO_ENTER_NAME);
+                        okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
                         okaper.repaint();
                     }
                     else if (c.toLowerCase() == 'd')
                     {
                         okaper.font.setCurrentLocale(cgafont.localeType.DANISH);
-                        okaper.setCurrentStep(kaper.stepType.INTRO_ENTER_NAME);
+                        okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
+                        okaper.repaint();
+                    }
+                    else if (c.toLowerCase() == 'c')
+                    {
+                        okaper.clearHighScore();
                         okaper.repaint();
                     }
                     break;
@@ -371,7 +397,7 @@ function kaper()
             case kaper.stepType.INTRO_ENTER_NAME:
                 if (c == "Enter" && okaper.currentPlayer.getName().length > 0) // Return key - start game
                     {
-                        okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
+                        okaper.setCurrentStep(kaper.stepType.GAME_PLAYING);
                         okaper.repaint();
                     }
                     else if (c == "Backspace") // Backspace key
@@ -390,7 +416,7 @@ function kaper()
                     break;
                     
             case kaper.stepType.TITLE_SCREEN:
-                    okaper.setCurrentStep(kaper.stepType.GAME_PLAYING); // Go on no matter what has been pressed
+                    okaper.setCurrentStep(kaper.stepType.INTRO_ENTER_NAME); // Go to player name entry
                     okaper.repaint();
                     break;
                     
@@ -463,6 +489,11 @@ function kaper()
 
         this.currentStep = step;
 
+        if (step == kaper.stepType.HIGHSCORE)
+        {
+            this.trySetHighScore(this.currentPlayer.getScore(), this.currentPlayer.getName());
+        }
+
         // Ignore accidental key presses for a short time when entering end-game screens.
         if (isEndScreen && !wasEndScreen)
         {
@@ -474,6 +505,63 @@ function kaper()
         }
     }
     
+    this.loadHighScore = function()
+    {
+        try
+        {
+            var raw = localStorage.getItem(this.highScoreStorageKey);
+            if (!raw) return;
+
+            var parsed = JSON.parse(raw);
+            if (parsed && typeof parsed.score === "number")
+            {
+                this.highScore.score = Math.max(0, Math.floor(parsed.score));
+                this.highScore.name = parsed.name ? ("" + parsed.name) : "";
+            }
+        }
+        catch (err)
+        {
+            // Ignore storage/parsing errors and keep defaults.
+        }
+    }
+
+    this.saveHighScore = function()
+    {
+        try
+        {
+            localStorage.setItem(this.highScoreStorageKey, JSON.stringify(this.highScore));
+        }
+        catch (err)
+        {
+            // Ignore write errors when storage is not available.
+        }
+    }
+
+    this.clearHighScore = function()
+    {
+        this.highScore.score = 0;
+        this.highScore.name = "";
+
+        try
+        {
+            localStorage.removeItem(this.highScoreStorageKey);
+        }
+        catch (err)
+        {
+            // Ignore storage errors when localStorage is unavailable.
+        }
+    }
+
+    this.trySetHighScore = function(score, name)
+    {
+        var normalizedScore = Math.max(0, Math.floor(score || 0));
+        if (normalizedScore <= this.highScore.score) return;
+
+        this.highScore.score = normalizedScore;
+        this.highScore.name = name ? ("" + name) : "";
+        this.saveHighScore();
+    }
+
     /**
      * Properties for game action
      */
