@@ -132,17 +132,17 @@ function cgafont()
     {
         switch (i) // Adjust to local font image
         {
-            case 198: // �
+            case 198: // Æ
                 return 133;
-            case 216: // �
+            case 216: // Ø
                 return 134;
-            case 197: // �
+            case 197: // Å
                 return 135;
-            case 230: // �
+            case 230: // æ
                 return 130;
-            case 248: // �
+            case 248: // ø
                 return 131;
-            case 229: // �
+            case 229: // å
                 return 132;
                 break;
         }

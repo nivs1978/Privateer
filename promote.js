@@ -53,20 +53,20 @@ function promote(k)
         // Check if more promotions left before player wins game
         if (this.currentPlayer.getDifficulty() < 9)
         {
-            g.drawImage(this.font.getResource("Promote5"), 0, 96, this.applet);
-            g.drawImage(this.font.getResource("Promote6", this.currentPlayer.getRankType2(), this.currentPlayer.getName()), 0, 112, this.applet);
+            g.drawImage(this.font.getResource("Promote5"), 0, 96);
+            g.drawImage(this.font.getResource("Promote6", this.currentPlayer.getRankType2(), this.currentPlayer.getName()), 0, 112);
         }
         else
         {
             // Game won (player just got the highest promotion)
-            g.drawImage(this.font.getResource("Promote7"), 0, 96, this.applet);
-            g.drawImage(this.font.getResource("Promote8"), 0, 112, this.applet);
-            g.drawImage(this.font.getResource("EndGame4", this.currentPlayer.getMen()), 0, 144, this.applet);
-            g.drawImage(this.font.getResource("EndGame5", this.currentPlayer.getReparation()), 0, 160, this.applet);
+            g.drawImage(this.font.getResource("Promote7"), 0, 96);
+            g.drawImage(this.font.getResource("Promote8"), 0, 112);
+            g.drawImage(this.font.getResource("EndGame4", this.currentPlayer.getMen()), 0, 144);
+            g.drawImage(this.font.getResource("EndGame5", this.currentPlayer.getReparation()), 0, 160);
             moreLines = 48;
         }
 
-        g.drawImage(this.font.getResource("Continue"), 0, 128 + moreLines, this.applet);
+        g.drawImage(this.font.getResource("Continue"), 0, 128 + moreLines);
     }
     
     /**

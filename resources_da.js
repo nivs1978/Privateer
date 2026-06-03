@@ -39,7 +39,7 @@ lang["da"] = {
     Welcome5: "Dette spil er tæt på 100% af",
     Welcome6: " det original spil med alle detaljer",
     Welcome7: "og logik i spillet.",
-    Welcome8: "www.javakaper.dk",
+    Welcome8: "kaper.barosaurussoftware.com",
     Welcome9: "Ønsker du at spille på",
     Welcome10: "Dansk eller Engelsk (D/E)?",
     PlayerName1: "Sådan ser dit skib ud:",

@@ -40,7 +40,7 @@ lang["en"] = {
         Welcome5: "This game is meant as a 100 % remake",
         Welcome6: "of the original  game with all details",
         Welcome7: "and game logic included.",
-        Welcome8: "www.javakaper.dk",
+        Welcome8: "kaper.barosaurussoftware.com",
         Welcome9: "Do you want to  play the game in",
         Welcome10: "danish or english (D/E)?",
         PlayerName1: "Your ship looks like this:",

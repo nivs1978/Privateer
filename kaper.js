@@ -31,7 +31,7 @@
  */
 function kaper()
 {
-    this.currentVersion = "0.1a (2017/06/25)"; // Current version of this game
+    this.currentVersion = "1.0 (2026/05/15)"; // Current version of this game
     
     this.osimg = null; // Offscreen image to be used for double buffering
     this.osgrp = null; // Offscreen graphics to be used for double buffering
@@ -55,6 +55,7 @@ function kaper()
 
     this.currentStep = null; // Where in the game are the player
     this.currentAction = null; // If playing, what is the current game action
+    this.endScreenInputUnlockedAt = 0; // Timestamp when end screen key input is allowed again
 
     var okaper = this; // To be able to access this object from the keyboard functions
 
@@ -150,12 +151,16 @@ function kaper()
                 this.osgrp.drawImage(this.font.getResource("Welcome7"), 128, 192);
                 this.osgrp.drawImage(this.font.getResource("Welcome9"), 64, 256);
                 this.osgrp.drawImage(this.font.getResource("Welcome10"), 128, 272);
-                this.osgrp.drawImage(this.font.getString(this.font.getResourceAsString("Welcome8") + "  v" + this.currentVersion), 32, 384);
+                this.osgrp.drawImage(this.font.getString(this.font.getResourceAsString("Welcome8")), 96, 360);
+                this.osgrp.drawImage(this.font.getString("v" + this.currentVersion), 196, 384);
                 if (this.currentStep == kaper.stepType.INTRO_WELCOME) break;
                 this.osgrp.drawImage(this.font.getResource("PlayerName1"), 96, 304);
                 this.osgrp.drawImage(img_ship_map_mode1, 528, 304);
                 this.osgrp.drawImage(this.font.getResource("PlayerName2"), 128, 320);
-                this.osgrp.drawImage(this.font.getString(this.currentPlayer.getName()), 432, 320);
+                var name = this.currentPlayer.getName();
+                var showCursor = (Date.now() % 1000) < 500;
+                var nameWithCursor = name + (showCursor ? "_" : " ");
+                this.osgrp.drawImage(this.font.getString(nameWithCursor), 432, 320);
                 break;
                 
             case kaper.stepType.TITLE_SCREEN:
@@ -304,6 +309,12 @@ function kaper()
                 sleepTime = 150 - (this.currentPlayer.getDifficulty() - 2) * 2;
                 this.repaint();
             }
+            else if (this.currentStep == kaper.stepType.INTRO_ENTER_NAME)
+            {
+                // Keep redrawing while entering name so the cursor can blink.
+                sleepTime = 100;
+                this.repaint();
+            }
             
         // Sleep until next frame update
             var runthis = this;
@@ -335,6 +346,7 @@ function kaper()
     this.keyPressed = function (e)
     {
         var c = e.key;
+        var endScreenLocked = Date.now() < okaper.endScreenInputUnlockedAt;
 
         /*if (c != KeyEvent.CHAR_UNDEFINED)
         {*/
@@ -411,11 +423,19 @@ function kaper()
                     break;
                     
             case kaper.stepType.GAME_LOST:
+                    if (endScreenLocked)
+                    {
+                        break;
+                    }
                     okaper.setCurrentStep(kaper.stepType.HIGHSCORE);
                     okaper.repaint();
                     break;
                     
             case kaper.stepType.HIGHSCORE:
+                    if (endScreenLocked)
+                    {
+                        break;
+                    }
                     // Last screen - start game anew
                     okaper.currentPlayer.resetPlayer();
                     okaper.gMap.resetMap();
@@ -438,7 +458,20 @@ function kaper()
      */
     this.setCurrentStep = function(step)
     {
+        var wasEndScreen = this.currentStep == kaper.stepType.GAME_LOST || this.currentStep == kaper.stepType.HIGHSCORE;
+        var isEndScreen = step == kaper.stepType.GAME_LOST || step == kaper.stepType.HIGHSCORE;
+
         this.currentStep = step;
+
+        // Ignore accidental key presses for a short time when entering end-game screens.
+        if (isEndScreen && !wasEndScreen)
+        {
+            this.endScreenInputUnlockedAt = Date.now() + 5000;
+        }
+        else if (!isEndScreen)
+        {
+            this.endScreenInputUnlockedAt = 0;
+        }
     }
     
     /**
