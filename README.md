@@ -11,7 +11,7 @@ The game is now hosted on https://kaper.barosaurussoftware.com/
 The game has been played for countless hours, but it might still contain some bugs. If so, file a bug on GitHub or contact me.  
   
 # Sound
-Sounds cannot be disabled, you must use the volume controls on your device.< br/>
+Sounds cannot be disabled, you must use the volume controls on your device.  
 The original audio sequences were in DOS QBASIC play strings, and a separate project, STR2WAV, was created in C# to convert these playback strings to WAV files for the first JavaScript version. Square wave sound is generated to make it sound like the original PC speakers back in the 80s: https://github.com/nivs1978/STR2WAV  
 With the introduction of the Web Audio API, we can now generate the audio on the fly, like the original QBASIC play strings. They have been reintroduced in the source, and the audio files have been removed.  
   
