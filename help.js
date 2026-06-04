@@ -47,6 +47,12 @@ function help(k)
         this.currentPage = 1;
     }
 
+    this.hasHelpPage = function(menuNo, pageNo)
+    {
+        var firstLine = this.font.getResourceAsString("HelpMenu" + menuNo + "_" + pageNo + "_1");
+        return typeof firstLine === "string" && firstLine.length > 0;
+    }
+
        
     this.resetMenu();
 
@@ -106,14 +112,18 @@ function help(k)
      */
     this.keyEvent = function(c)
     {
+        var key = c;
+        if (typeof key === "number")
+            key = String.fromCharCode(key);
+
         // Change menu if number pressed and on main page
-        if (this.currentMenu == 10 && c >= 48 && c <= 57)
+        if (this.currentMenu == 10 && key >= "0" && key <= "9")
         {
-            // Hack for converting the character representation to int (not the value)
-            this.currentMenu = c - '0';
+            // Convert selected menu digit to number.
+            this.currentMenu = parseInt(key, 10);
         }
         // Go back to game if character pressed and on main page
-        else if (this.currentMenu == 10 && (c < 48 || c > 57))
+        else if (this.currentMenu == 10)
         {
             this.resetMenu();
             
@@ -127,24 +137,12 @@ function help(k)
         // Change page if character pressed and not on main page
         else if (this.currentMenu != 10)
         {
-            var test = "";
-            try
-            {
-                // Try to get first text line from next help page
-                test = this.font.getResourceAsString("HelpMenu" + this.currentMenu + "_" + (this.currentPage + 1) + "_" + "1");
-            }
-            catch (ex)
-            {
-                try
-                {
-                    // Try to get first text line from second next help page (help menu 4 has image pages)
-                    test = this.font.getResourceAsString("HelpMenu" + this.currentMenu + "_" + (this.currentPage + 2) + "_" + "1");
-                }
-                catch (ex2) {}
-            }
+            // Help menu 4 has image-only pages between text pages.
+            var hasNextPage = this.hasHelpPage(this.currentMenu, this.currentPage + 1) ||
+                              this.hasHelpPage(this.currentMenu, this.currentPage + 2);
             
             // Show next help page on this menu (if it exist)
-            if (test.length > 0)
+            if (hasNextPage)
                 this.currentPage += 1;
             else
                 this.resetMenu();

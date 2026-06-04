@@ -357,6 +357,32 @@ function kaper()
         return "Title: Java Applet version of Kaptajn Kaper i Kattegat\nAuthor: Rune P. Olsen\nVersion: " + currentVersion;
     }
 
+    this.normalizeKey = function(e)
+    {
+        var key = e.key;
+
+        // Keep numpad behavior consistent when NumLock is on/off.
+        if (e.location === 3)
+        {
+            switch (e.code)
+            {
+                case "Numpad0": return "0";
+                case "Numpad1": return "1";
+                case "Numpad2": return "2";
+                case "Numpad3": return "3";
+                case "Numpad4": return "4";
+                case "Numpad5": return "5";
+                case "Numpad6": return "6";
+                case "Numpad7": return "7";
+                case "Numpad8": return "8";
+                case "Numpad9": return "9";
+                case "NumpadEnter": return "Enter";
+            }
+        }
+
+        return key;
+    }
+
 
     /**
      * KeyListener events
@@ -367,8 +393,17 @@ function kaper()
 
     this.keyPressed = function (e)
     {
-        var c = e.key;
+        var c = okaper.normalizeKey(e);
         var endScreenLocked = Date.now() < okaper.endScreenInputUnlockedAt;
+
+        // Keep browser shortcuts from stealing game keys.
+        if (c == "F1" || c == "F2" || c == "Escape")
+        {
+            if (e.preventDefault) e.preventDefault();
+            if (e.stopPropagation) e.stopPropagation();
+            e.returnValue = false;
+            e.cancelBubble = true;
+        }
 
         /*if (c != KeyEvent.CHAR_UNDEFINED)
         {*/
